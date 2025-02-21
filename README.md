@@ -2,7 +2,7 @@
 
 A feature-rich chat component with Telegram-inspired UI and modern messaging features.
 
-![Chat Interface Preview](https://via.placeholder.com/400x600/EEE/31343C?text=Chat+Preview+Here)  
+![Chat Interface Preview](https://github.com/user-attachments/assets/1989e6b1-e6c8-4c1b-a78b-10e979b7544c) 
 
 ---
 
