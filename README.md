@@ -23,7 +23,7 @@ A feature-rich chat component with Telegram-inspired UI and modern messaging fea
 ### Interactive Features
 - Context menu for message actions
 - Delete/edit message functionality
-- Dynamic symbol recognition:
+- Dynamic symbol recognition:(for example :)
   - `@` for user mentions
   - `#` for task references
 - Animated message transitions
