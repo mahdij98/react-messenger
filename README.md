@@ -119,4 +119,4 @@ git push origin feature/new-feature
 Open a Pull Request
 
 License 📜
-MIT License © 2023 [Your Name]
+MIT License © 2023 [mahdij98]
