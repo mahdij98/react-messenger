@@ -1,0 +1,40 @@
+@import "tailwindcss";
+
+/* Hide scrollbar track and arrows while keeping the scrollbar thumb visible */
+::-webkit-scrollbar {
+  width: 8px; /* Adjust width as needed */
+}
+
+::-webkit-scrollbar-track {
+  background: transparent; /* Fully transparent track */
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(
+    255,
+    255,
+    255,
+    0.5
+  ); /* Visible scrollbar with some transparency */
+  border-radius: 4px; /* Rounded edges */
+}
+
+::-webkit-scrollbar-button {
+  display: none; /* Hide the up/down arrows */
+}
+
+/* For Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(87, 87, 87, 0.5) transparent;
+}
+
+.rows-wrapper .bubble-tail {
+  position: absolute;
+  bottom: -1px;
+  inset-inline-end: -8.4px;
+  width: 11px;
+  height: 20px;
+  fill: var(--surface-color);
+  transform: scaleX(calc(var(--reflect) * -1));
+}
