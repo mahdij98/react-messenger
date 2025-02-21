@@ -1,50 +1,39 @@
-# React + TypeScript + Vite
+## React Pro Messenger  
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A feature-rich chat component with Telegram-inspired UI and modern messaging features.
 
-Currently, two official plugins are available:
+![Chat Interface Preview](https://via.placeholder.com/400x600/EEE/31343C?text=Chat+Preview+Here)  
+*(Replace with actual screenshot)*
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+---
 
-## Expanding the ESLint configuration
+## Features ✨
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+### Core Functionality
+- Telegram-style messaging interface
+- Multi-user chat support
+- Message history with scroll
+- Responsive design
 
-- Configure the top-level `parserOptions` property like this:
+### Message Types
+- **Text messages** with formatting
+- **Voice messages** with audio player
+- **File attachments** (images, documents)
+- **Symbol integration** (@mentions, #tasks)
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
+### Interactive Features
+- Context menu for message actions
+- Delete/edit message functionality
+- Dynamic symbol recognition:
+  - `@` for user mentions
+  - `#` for task references
+- Animated message transitions
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+---
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
+## Installation 📦
 
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
-```
+```bash
+npm install react-pro-messenger
+# or
+yarn add react-pro-messenger
