@@ -36,4 +36,5 @@ A feature-rich chat component with Telegram-inspired UI and modern messaging fea
 ```bash
 npm install react-pro-messenger
 # or
+```bash
 yarn add react-pro-messenger
