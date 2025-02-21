@@ -2,7 +2,8 @@
 
 A feature-rich chat component with Telegram-inspired UI and modern messaging features.
 
-![Chat Interface Preview](https://github.com/user-attachments/assets/1989e6b1-e6c8-4c1b-a78b-10e979b7544c) ![image](https://github.com/user-attachments/assets/43d19d72-03fb-4637-b913-fedbbd2d58a6)
+![Chat Interface Preview](https://github.com/user-attachments/assets/1989e6b1-e6c8-4c1b-a78b-10e979b7544c) ![image](https://github.com/user-attachments/assets/43d19d72-03fb-4637-b913-fedbbd2d58a6) ![image](https://github.com/user-attachments/assets/e47668bf-bae8-4a91-acf9-4ac2432fed39)
+
 
 
 ---
