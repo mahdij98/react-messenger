@@ -1,0 +1,7 @@
+src/
+.gitignore
+vite.config.ts
+*.test.ts
+*.test.tsx
+.eslintrc
+.prettierrc
