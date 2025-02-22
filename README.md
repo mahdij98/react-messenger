@@ -1,50 +1,124 @@
-# React + TypeScript + Vite
+## React Pro Messenger  
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A feature-rich chat component with Telegram-inspired UI and modern messaging features.
 
-Currently, two official plugins are available:
+![Chat Interface Preview](https://github.com/user-attachments/assets/1989e6b1-e6c8-4c1b-a78b-10e979b7544c) ![image](https://github.com/user-attachments/assets/43d19d72-03fb-4637-b913-fedbbd2d58a6) ![image](https://github.com/user-attachments/assets/e47668bf-bae8-4a91-acf9-4ac2432fed39)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
 
-## Expanding the ESLint configuration
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+---
 
-- Configure the top-level `parserOptions` property like this:
+## Features ✨
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+### Core Functionality
+- Telegram-style messaging interface
+- Multi-user chat support
+- Message history with scroll
+- Responsive design
+
+### Message Types
+- **Text messages** with formatting
+- **Voice messages** with audio player
+- **File attachments** (images, documents)
+- **Symbol integration** (@mentions, #tasks)
+
+### Interactive Features
+- Context menu for message actions
+- Delete/edit message functionality
+- Dynamic symbol recognition:(for example :)
+  - `@` for user mentions
+  - `#` for task references
+- Animated message transitions
+
+---
+
+## Installation 📦
+
+```bash
+npm install react-pro-messenger
+```
+# or
+```bash
+yarn add react-pro-messenger
 ```
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+## Basic Usage 🚀
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
+```tsx
+import { Chat, MessageEntity } from 'react-pro-messenger';
 
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
+const App = () => {
+  const [messages, setMessages] = useState<MessageEntity[]>(initialMessages);
+  const currentUser = { id: "user-1", fullName: "John Doe" };
+
+  return (
+    <Chat
+      messages={messages}
+      user={currentUser}
+      onMessageSent={(newMsg) => setMessages([...messages, newMsg])}
+      onDeleteMessage={(id) => setMessages(messages.filter(msg => msg.id !== id))}
+    />
+  );
+};
 ```
+## Component Props ⚙️
+
+### Chat Component Configuration
+
+| Prop                      | Type                          | Default       | Description                              |
+|---------------------------|-------------------------------|---------------|------------------------------------------|
+| `messages`                | `MessageEntity[]`             | **Required**  | Array of message objects                 |
+| `user`                    | `UserInterface`               | **Required**  | Current user details                     |
+| `width`                   | `string`                      | `"400px"`     | Container width                          |
+| `height`                  | `string`                      | `"600px"`     | Container height                         |
+| `dynamicSymbolAssignments`| `SymbolAssignment[]`          | `[]`          | Symbol-component mappings                |
+| `className`               | `string`                      | `""`          | Additional CSS classes                   |
+
+**Key**:  
+📌 `Type` = Expected prop type  
+📌 `Default` = Default value if not required  
+📌 **Required** = Must be provided
+
+## Customization 🎨
+
+Symbol Integration
+
+```tsx
+const taskComponent = ({ listsProps, onClick }) => (
+  <div className="task-item">
+    <span>📌</span>
+    <p>{listsProps.name}</p>
+  </div>
+);
+
+<Chat
+  dynamicSymbolAssignments={[{
+    symbol: '#',
+    component: taskComponent,
+    lists: tasksList
+  }]}
+/>
+
+```
+## Contributing 🤝
+Fork the repository
+
+Create feature branch:
+
+```bash
+git checkout -b feature/new-feature
+```
+Commit changes:
+
+```bash
+git commit -m 'Add awesome feature'
+```
+Push to branch:
+
+```bash
+git push origin feature/new-feature
+```
+Open a Pull Request
+
+License 📜
+MIT License © 2023 [mahdij98]
