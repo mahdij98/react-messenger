@@ -122,7 +122,10 @@ const Chat = ({
           isVisible={Boolean(contextMenu)}
           messageId={String(contextMenu?.message.id)}
           isCurrentUserMessage={contextMenu?.message?.user.id === user.id}
-          position={contextMenu}
+          position={{
+            x: contextMenu?.x,
+            y: contextMenu?.y,
+          }}
         />
       ) : null}
       <ChatInput

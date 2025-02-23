@@ -41,14 +41,13 @@ const Logic = ({
     message: MessageEntity
   ) => {
     event.preventDefault();
+    if (!chatRef.current) return;
 
-    const rect = chatRef.current?.getBoundingClientRect();
-    const scrollX = window.scrollX || document.documentElement.scrollLeft;
-    const scrollY = window.scrollY || document.documentElement.scrollTop;
+    const rect = chatRef.current.getBoundingClientRect();
 
     setContextMenu({
-      x: event.clientX - (rect?.left ?? 0) + scrollX,
-      y: event.clientY - (rect?.top ?? 0) + scrollY,
+      x: event.clientX - rect.left,
+      y: event.clientY - rect.top,
       message,
     });
   };
