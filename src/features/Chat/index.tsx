@@ -7,6 +7,7 @@ import Media from "../../components/Media/Media";
 import LeftSide from "../../components/Message/LeftSide/LeftSide";
 import RightSide from "../../components/Message/RightSide/RightSide";
 import { MessageEntity } from "../../domain/MessageEntity";
+import "../../index.css";
 import { SymbolAssignment, UserInterface } from "../../ts/interfaces";
 import Logic from "./logic";
 export interface ChatPropsInterface {
