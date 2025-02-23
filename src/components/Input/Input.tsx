@@ -40,7 +40,6 @@ const ChatInput = ({
       const symbol = match[0];
       if (selectedSymbol) {
         const symbolValue = match[0].split(selectedSymbol)[1];
-        console.log("filter symbol", symbolValue);
         setFilterSymbol(symbolValue);
       }
       if (
@@ -134,9 +133,9 @@ const ChatInput = ({
           (assignment) => assignment.symbol === selectedSymbol
         );
 
-        if (config && config.updatePageNumber) {
+        if (config && config?.updatePageNumber) {
           setLoading(true);
-          config.updatePageNumber(config.pagNumber + 1);
+          config?.updatePageNumber(config.pagNumber + 1);
           setPreviousScrollTopForSymbol(scrollTop); // Update the previous scroll position
 
           // Optionally, set loading to false after a delay
@@ -224,14 +223,29 @@ const ChatInput = ({
           </div>
           <div className="space-y-2">
             {dynamicSymbolAssignments
-              ?.filter((config) => config.symbol === selectedSymbol)
-              .map((config) => {
-                const { component: Component, lists } = config;
-                if (!Component) return null;
-                if (filterSymbol) {
-                  return lists
-                    ?.filter((list) => list?.name.includes(filterSymbol))
-                    ?.map((list, index) => (
+              ? dynamicSymbolAssignments
+                  .filter((config) => config.symbol === selectedSymbol)
+                  .map((config) => {
+                    const { component: Component, lists } = config;
+                    if (!Component) return null;
+                    if (filterSymbol) {
+                      return lists
+                        ?.filter((list) => list?.name.includes(filterSymbol))
+                        ?.map((list, index) => (
+                          <div
+                            key={index}
+                            className="hover:bg-gray-100 rounded-md p-2 cursor-pointer"
+                          >
+                            <Component
+                              listsProps={list}
+                              onClick={(id, value) =>
+                                handleItemClick(id, value)
+                              }
+                            />
+                          </div>
+                        ));
+                    }
+                    return lists?.map((list, index) => (
                       <div
                         key={index}
                         className="hover:bg-gray-100 rounded-md p-2 cursor-pointer"
@@ -242,19 +256,8 @@ const ChatInput = ({
                         />
                       </div>
                     ));
-                }
-                return lists?.map((list, index) => (
-                  <div
-                    key={index}
-                    className="hover:bg-gray-100 rounded-md p-2 cursor-pointer"
-                  >
-                    <Component
-                      listsProps={list}
-                      onClick={(id, value) => handleItemClick(id, value)}
-                    />
-                  </div>
-                ));
-              })}
+                  })
+              : null}
             <div className="h-8">{loading && "Loading more items..."}</div>
           </div>
         </div>

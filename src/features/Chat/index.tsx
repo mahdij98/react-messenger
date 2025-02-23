@@ -1,6 +1,5 @@
 import { AnimatePresence } from "framer-motion";
 import React from "react";
-import ChatBg1 from "../../assets/chat-bg-1.jpg";
 import ConfirmationModal from "../../components/ConformaitionModal/ConformationModal";
 import ContextMenu from "../../components/ContextMenu/ContextMenu";
 import ChatInput from "../../components/Input/Input";
@@ -64,7 +63,7 @@ const Chat = ({
       style={{
         width,
         height,
-        background: "url(" + ChatBg1 + ")",
+        background: "url(./chat-bg-1.jpg)",
         ...style,
       }}
       onClick={handleCloseContextMenu}
@@ -96,7 +95,7 @@ const Chat = ({
               );
 
             const showUserProfile =
-              messages[index - 1]?.user.id !== message.user.id;
+              messages[index - 1]?.user?.id !== message?.user?.id;
 
             return (
               <LeftSide
@@ -117,12 +116,12 @@ const Chat = ({
         header="Confirm Delete"
         question="Are you sure you want to delete this message?"
       />
-      {contextMenu && contextMenu.message?.id ? (
+      {contextMenu && contextMenu?.message?.id ? (
         <ContextMenu
           items={contextMenuItems}
           isVisible={Boolean(contextMenu)}
-          messageId={String(contextMenu.message.id)}
-          isCurrentUserMessage={contextMenu.message.user.id === user.id}
+          messageId={String(contextMenu?.message.id)}
+          isCurrentUserMessage={contextMenu?.message?.user.id === user.id}
           position={contextMenu}
         />
       ) : null}
