@@ -10,7 +10,6 @@ export default defineConfig({
       entry: "src/index.ts",
       name: "ReactProMessenger",
       fileName: (format) => `index.${format}.js`,
-      formats: ["es", "umd"],
     },
     rollupOptions: {
       external: ["react", "react-dom", "framer-motion"],
@@ -19,10 +18,11 @@ export default defineConfig({
           react: "React",
           "react-dom": "ReactDOM",
           "framer-motion": "framerMotion",
-          tailwindcss: "tailwindcss",
         },
-        inlineDynamicImports: false,
       },
     },
+    sourcemap: true,
+    emptyOutDir: true,
+    cssCodeSplit: true,
   },
 });
