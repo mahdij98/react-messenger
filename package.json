@@ -1,6 +1,6 @@
 {
   "name": "react-pro-messenger",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "Telegram-style chat component for React",
   "type": "module",
   "main": "dist/index.umd.js",
