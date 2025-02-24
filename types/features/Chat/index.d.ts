@@ -1,5 +1,6 @@
 import React from "react";
 import { MessageEntity } from "../../domain/MessageEntity";
+import "../../index.css";
 import { SymbolAssignment, UserInterface } from "../../ts/interfaces";
 export interface ChatPropsInterface {
     messages: MessageEntity[];

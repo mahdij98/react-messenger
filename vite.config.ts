@@ -19,6 +19,7 @@ export default defineConfig({
           react: "React",
           "react-dom": "ReactDOM",
           "framer-motion": "framerMotion",
+          tailwindcss: "tailwindcss",
         },
         inlineDynamicImports: false,
       },
