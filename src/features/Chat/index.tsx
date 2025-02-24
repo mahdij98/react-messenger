@@ -16,6 +16,7 @@ export interface ChatPropsInterface {
   width?: string;
   height?: string;
   className?: string;
+  backgroundImage?: string;
   style?: React.CSSProperties;
   updateMessages: (messages: MessageEntity[]) => void;
   onMessageSent: (message: MessageEntity) => void;
@@ -36,6 +37,7 @@ const Chat = ({
   onDeleteMessage,
   onEditMessage,
   dynamicSymbolAssignments,
+  backgroundImage,
 }: ChatPropsInterface) => {
   const {
     handleDeleteConfirmation,
@@ -64,7 +66,7 @@ const Chat = ({
       style={{
         width,
         height,
-        background: "url(./chat-bg-1.jpg)",
+        background: "url(" + backgroundImage + ")",
         ...style,
       }}
       onClick={handleCloseContextMenu}
