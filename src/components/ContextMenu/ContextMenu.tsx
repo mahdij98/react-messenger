@@ -30,12 +30,8 @@ const ContextMenu: React.FC<ContextMenuProps> = ({
   useEffect(() => {
     if (!portalContainer.current) {
       portalContainer.current = document.createElement("div");
-      portalContainer.current.style.zIndex = "999";
+      portalContainer.current.style.zIndex = "1500";
       portalContainer.current.style.position = "fixed";
-      portalContainer.current.style.top = "0";
-      portalContainer.current.style.left = "0";
-      portalContainer.current.style.width = "100%";
-      portalContainer.current.style.height = "100%";
       document.body.appendChild(portalContainer.current);
     }
     setIsReady(true);

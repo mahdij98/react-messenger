@@ -253,39 +253,41 @@ function App() {
   };
 
   return (
-    <Chat
-      messages={messages}
-      backgroundImage={ProfileIcon1}
-      dynamicSymbolAssignments={[
-        {
-          symbol: "#",
-          component({ onClick, listsProps }) {
-            return <Tasks task={listsProps} onClick={onClick} />;
+    <div className="">
+      <Chat
+        messages={messages}
+        backgroundImage={ProfileIcon1}
+        dynamicSymbolAssignments={[
+          {
+            symbol: "#",
+            component({ onClick, listsProps }) {
+              return <Tasks task={listsProps} onClick={onClick} />;
+            },
+            lists: taskLists,
+            pagNumber: pagNumber,
+            updatePageNumber: (newPage: number) => setPageNumber(newPage),
           },
-          lists: taskLists,
-          pagNumber: pagNumber,
-          updatePageNumber: (newPage: number) => setPageNumber(newPage),
-        },
-        {
-          symbol: "@",
-          component({ onClick, listsProps }) {
-            return <User user={listsProps} onClick={onClick} />;
+          {
+            symbol: "@",
+            component({ onClick, listsProps }) {
+              return <User user={listsProps} onClick={onClick} />;
+            },
+            lists: userLists,
+            pagNumber: pagNumber,
+            updatePageNumber: (newPage: number) => {
+              console.log("new page", newPage);
+              setPageNumber(newPage);
+            },
           },
-          lists: userLists,
-          pagNumber: pagNumber,
-          updatePageNumber: (newPage: number) => {
-            console.log("new page", newPage);
-            setPageNumber(newPage);
-          },
-        },
-      ]}
-      user={currentUser}
-      updateMessages={setMessages}
-      onDeleteMessage={handleDeleteMessage}
-      onEditMessage={(id) => {}}
-      onMessageSent={(newMessage) => {}}
-      className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-lg bg-gray-100 border "
-    />
+        ]}
+        user={currentUser}
+        updateMessages={setMessages}
+        onDeleteMessage={handleDeleteMessage}
+        onEditMessage={(id) => {}}
+        onMessageSent={(newMessage) => {}}
+        className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-lg bg-gray-100 border "
+      />
+    </div>
   );
 }
 

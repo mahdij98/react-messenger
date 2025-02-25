@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Check, Copy, Edit, Trash } from "react-feather";
 import { ContextMenuItem } from "../../components/ContextMenu/ContextMenu";
 import { MessageEntity } from "../../domain/MessageEntity";
@@ -35,6 +35,18 @@ const Logic = ({
         chatRef.current.scrollTop = chatRef.current.scrollHeight;
     }, 100);
   };
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setContextMenu(null);
+    };
+
+    window.addEventListener("scroll", handleScroll, true);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll, true);
+    };
+  }, [setContextMenu]);
 
   const handleContextMenu = (
     event: React.MouseEvent,
