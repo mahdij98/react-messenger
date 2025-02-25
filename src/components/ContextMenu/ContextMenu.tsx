@@ -1,5 +1,6 @@
 import { AnimatePresence, motion } from "framer-motion";
-import React from "react";
+import React, { useEffect, useRef, useState } from "react";
+import ReactDOM from "react-dom";
 
 export interface ContextMenuItem {
   name: string;
@@ -23,7 +24,27 @@ const ContextMenu: React.FC<ContextMenuProps> = ({
   messageId,
   isCurrentUserMessage,
 }) => {
-  return (
+  const portalContainer = useRef<HTMLDivElement | null>(null);
+  const [isReady, setIsReady] = useState(false);
+
+  useEffect(() => {
+    if (!portalContainer.current) {
+      portalContainer.current = document.createElement("div");
+      document.body.appendChild(portalContainer.current);
+    }
+    setIsReady(true);
+
+    return () => {
+      if (portalContainer.current && !isVisible) {
+        document.body.removeChild(portalContainer.current);
+        portalContainer.current = null;
+      }
+    };
+  }, [isVisible]);
+
+  if (!portalContainer.current || !isReady) return null;
+
+  return ReactDOM.createPortal(
     <AnimatePresence>
       {isVisible && (
         <motion.div
@@ -31,8 +52,11 @@ const ContextMenu: React.FC<ContextMenuProps> = ({
           animate={{ opacity: 1, scale: 1, y: 0 }}
           exit={{ opacity: 0, scale: 0.8, y: -10 }}
           transition={{ duration: 0.2, ease: "easeOut" }}
-          className="absolute z-20 bg-white shadow-lg rounded-md p-2 px-1 w-42"
-          style={{ top: position.y, left: position.x }}
+          className="absolute z-50 bg-white shadow-lg rounded-md p-2 px-1 w-42"
+          style={{
+            top: position.y,
+            left: position.x,
+          }}
         >
           {items.map((item, index) => {
             if (item?.onlyCurrentUserMessage && !isCurrentUserMessage)
@@ -40,20 +64,21 @@ const ContextMenu: React.FC<ContextMenuProps> = ({
             return (
               <button
                 key={index}
-                className="cursor-pointer flex items-center gap-2  w-full rounded-md text-left px-2  py-1 hover:bg-gray-200"
+                className="cursor-pointer flex items-center gap-2 w-full rounded-md text-left px-2 py-1 hover:bg-gray-200"
                 onClick={() => item.onClick(messageId)}
               >
                 {React.cloneElement(item.icon, {
                   className: "text-black",
                   size: 18,
-                })}{" "}
+                })}
                 <span className="ml-2 text-black">{item.name}</span>
               </button>
             );
           })}
         </motion.div>
       )}
-    </AnimatePresence>
+    </AnimatePresence>,
+    portalContainer.current
   );
 };
 
