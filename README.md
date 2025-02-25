@@ -45,6 +45,13 @@ npm install react-pro-messenger
 yarn add react-pro-messenger
 ```
 
+note : for now you need to install taiwlind in your project for this package to have proper style.
+and then in tailwind configuration you should have this
+
+```
+content: ["./node_modules/react-pro-messenger/**/*.{html,js, jsx}"],
+```
+
 ## Basic Usage 🚀
 
 ```tsx
