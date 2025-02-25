@@ -18,7 +18,7 @@ export class MessageEntity {
         };
       }
     | undefined;
-
+  isSending?: boolean;
   constructor({
     id,
     text,
@@ -28,6 +28,7 @@ export class MessageEntity {
     user,
     isRightSided,
     symbols,
+    isSending,
   }: {
     id: string;
     text: string;
@@ -45,6 +46,7 @@ export class MessageEntity {
           };
         }
       | undefined;
+    isSending?: boolean;
   }) {
     this.id = id;
     this.text = text;
@@ -54,5 +56,6 @@ export class MessageEntity {
     this.user = user;
     this.isRightSided = isRightSided;
     this.symbols = symbols;
+    this.isSending = isSending;
   }
 }

@@ -6,6 +6,7 @@ import ChatInput from "../../components/Input/Input";
 import Media from "../../components/Media/Media";
 import LeftSide from "../../components/Message/LeftSide/LeftSide";
 import RightSide from "../../components/Message/RightSide/RightSide";
+import Spinner from "../../components/Spinner/Spinner";
 import { MessageEntity } from "../../domain/MessageEntity";
 import "../../index.css";
 import { SymbolAssignment, UserInterface } from "../../ts/interfaces";
@@ -15,6 +16,7 @@ export interface ChatPropsInterface {
   user: UserInterface;
   width?: string;
   height?: string;
+  isLoadingChat?: boolean;
   className?: string;
   backgroundImage?: string;
   style?: React.CSSProperties;
@@ -28,6 +30,7 @@ export interface ChatPropsInterface {
 const Chat = ({
   width = "400px",
   height = "600px",
+  isLoadingChat,
   className,
   style,
   messages,
@@ -77,40 +80,44 @@ const Chat = ({
           contextMenu ? "overflow-hidden pr-[22px]" : "overflow-y-scroll"
         }`}
       >
-        <AnimatePresence>
-          {messages.map((message, index) => {
-            const media = message?.attachment ? (
-              <Media
-                key={index}
-                attachment={message.attachment}
-                attachmentType={message?.attachmentType}
-              />
-            ) : null;
+        {isLoadingChat ? (
+          <Spinner className="mt-3" size={27} color="text-gray-800" />
+        ) : (
+          <AnimatePresence>
+            {messages.map((message, index) => {
+              const media = message?.attachment ? (
+                <Media
+                  key={index}
+                  attachment={message.attachment}
+                  attachmentType={message?.attachmentType}
+                />
+              ) : null;
 
-            if (message.isRightSided)
+              if (message.isRightSided)
+                return (
+                  <RightSide
+                    key={index}
+                    media={media}
+                    handleContextMenu={handleContextMenu}
+                    message={message}
+                  />
+                );
+
+              const showUserProfile =
+                messages[index - 1]?.user?.id !== message?.user?.id;
+
               return (
-                <RightSide
+                <LeftSide
+                  showUserProfile={showUserProfile}
                   key={index}
                   media={media}
                   handleContextMenu={handleContextMenu}
                   message={message}
                 />
               );
-
-            const showUserProfile =
-              messages[index - 1]?.user?.id !== message?.user?.id;
-
-            return (
-              <LeftSide
-                showUserProfile={showUserProfile}
-                key={index}
-                media={media}
-                handleContextMenu={handleContextMenu}
-                message={message}
-              />
-            );
-          })}
-        </AnimatePresence>
+            })}
+          </AnimatePresence>
+        )}
       </div>
       <ConfirmationModal
         isOpen={isModalOpen}

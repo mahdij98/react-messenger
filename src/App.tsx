@@ -122,12 +122,14 @@ function App() {
       isRightSided: true,
       user: { id: "2", profileImageUrl: ProfileIcon1, fullName: "Marya" },
       createdDate: "2025-02-14T08:09:22.311+00:00",
+      isSending: true,
     }),
     new MessageEntity({
       id: "22",
       text: "what? 🤔",
       user: { id: "5", profileImageUrl: ProfileIcon4, fullName: "Mike" },
       createdDate: "2025-02-14T08:09:22.311+00:00",
+      isSending: true,
     }),
     new MessageEntity({
       id: "33",
@@ -253,6 +255,7 @@ function App() {
   return (
     <Chat
       messages={messages}
+      backgroundImage={ProfileIcon1}
       dynamicSymbolAssignments={[
         {
           symbol: "#",

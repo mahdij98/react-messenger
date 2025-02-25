@@ -3,6 +3,7 @@ import React from "react";
 import { MessageEntity } from "../../../domain/MessageEntity";
 import DoubleCheckIcon from "../../Icons/DoubleCheckIcon";
 import SpeechBubbleCornerIcon from "../../Icons/SpeechBubbleCornerIcon";
+import Spinner from "../../Spinner/Spinner";
 
 const RightSide = ({
   handleContextMenu,
@@ -32,7 +33,11 @@ const RightSide = ({
             ":" +
             new Date(message.createdDate).toLocaleTimeString().split(":")[1]}
         </span>
-        <DoubleCheckIcon />
+        {message.isSending ? (
+          <Spinner size={13} color="text-black" />
+        ) : (
+          <DoubleCheckIcon />
+        )}
       </div>
 
       <SpeechBubbleCornerIcon className="fill-blue-200 rotate-180 absolute -right-2 bottom-0 [&>g>path]:fill-blue-200" />
