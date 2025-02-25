@@ -84,38 +84,40 @@ const Chat = ({
           <Spinner className="mt-3" size={27} color="text-gray-800" />
         ) : (
           <AnimatePresence>
-            {messages.map((message, index) => {
-              const media = message?.attachment ? (
-                <Media
-                  key={index}
-                  attachment={message.attachment}
-                  attachmentType={message?.attachmentType}
-                />
-              ) : null;
+            {messages.length > 0
+              ? messages.map((message, index) => {
+                  const media = message?.attachment ? (
+                    <Media
+                      key={index}
+                      attachment={message.attachment}
+                      attachmentType={message?.attachmentType}
+                    />
+                  ) : null;
 
-              if (message.isRightSided)
-                return (
-                  <RightSide
-                    key={index}
-                    media={media}
-                    handleContextMenu={handleContextMenu}
-                    message={message}
-                  />
-                );
+                  if (message.isRightSided)
+                    return (
+                      <RightSide
+                        key={index}
+                        media={media}
+                        handleContextMenu={handleContextMenu}
+                        message={message}
+                      />
+                    );
 
-              const showUserProfile =
-                messages[index - 1]?.user?.id !== message?.user?.id;
+                  const showUserProfile =
+                    messages[index - 1]?.user?.id !== message?.user?.id;
 
-              return (
-                <LeftSide
-                  showUserProfile={showUserProfile}
-                  key={index}
-                  media={media}
-                  handleContextMenu={handleContextMenu}
-                  message={message}
-                />
-              );
-            })}
+                  return (
+                    <LeftSide
+                      showUserProfile={showUserProfile}
+                      key={index}
+                      media={media}
+                      handleContextMenu={handleContextMenu}
+                      message={message}
+                    />
+                  );
+                })
+              : null}
           </AnimatePresence>
         )}
       </div>
