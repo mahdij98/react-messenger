@@ -6,6 +6,7 @@ export interface ContextMenuItem {
   name: string;
   icon: JSX.Element;
   onClick: (id: string) => void;
+  disabled?: boolean;
   onlyCurrentUserMessage?: boolean;
 }
 
@@ -71,7 +72,8 @@ const ContextMenu: React.FC<ContextMenuProps> = ({
             return (
               <button
                 key={index}
-                className="cursor-pointer flex items-center gap-2 w-full rounded-md text-left px-2 py-1 hover:bg-gray-200"
+                disabled={item?.disabled}
+                className="cursor-pointer flex items-center gap-2 w-full rounded-md text-left px-2 py-1 disabled:opacity-20 hover:bg-gray-200"
                 onClick={() => item.onClick(messageId)}
               >
                 {React.cloneElement(item.icon, {

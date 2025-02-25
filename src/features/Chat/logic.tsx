@@ -138,6 +138,7 @@ const Logic = ({
     {
       name: "Select",
       icon: <Check className="text-green-600" />,
+      disabled: true,
       onClick: () => {
         console.log("Select clicked");
         handleCloseContextMenu();
@@ -146,8 +147,11 @@ const Logic = ({
     {
       name: "Copy",
       icon: <Copy className="text-blue-600" />,
-      onClick: () => {
-        console.log("Copy clicked");
+      onClick: (id: string) => {
+        const message = messages.find((message) => message.id === id);
+        if (message) {
+          navigator.clipboard.writeText(message.text);
+        }
         handleCloseContextMenu();
       },
     },
