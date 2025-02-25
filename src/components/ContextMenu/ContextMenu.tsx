@@ -32,6 +32,11 @@ const ContextMenu: React.FC<ContextMenuProps> = ({
       portalContainer.current = document.createElement("div");
       portalContainer.current.style.zIndex = "1500";
       portalContainer.current.style.position = "fixed";
+      portalContainer.current.style.top = "0";
+      portalContainer.current.style.left = "0";
+      portalContainer.current.style.width = "100%";
+      portalContainer.current.style.height = "100%";
+      portalContainer.current.style.pointerEvents = "none";
       document.body.appendChild(portalContainer.current);
     }
     setIsReady(true);
@@ -54,7 +59,7 @@ const ContextMenu: React.FC<ContextMenuProps> = ({
           animate={{ opacity: 1, scale: 1, y: 0 }}
           exit={{ opacity: 0, scale: 0.8, y: -10 }}
           transition={{ duration: 0.2, ease: "easeOut" }}
-          className="absolute z-50 bg-white shadow-lg rounded-md p-2 px-1 w-42"
+          className="absolute z-50 bg-white shadow-lg rounded-md p-2 px-1 w-42 pointer-events-auto"
           style={{
             top: position.y,
             left: position.x,
