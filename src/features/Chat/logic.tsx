@@ -96,14 +96,14 @@ const Logic = ({
     moveScrollBarToBottom();
   };
 
-  const handleSendFile = (file: Blob) => {
+  const handleSendFile = (file: Blob, type: AttachmentTypeEnum) => {
     const fileUrl = URL.createObjectURL(file);
 
     const newMessage = new MessageEntity({
       id: new Date().toString(),
       text: "",
       attachment: fileUrl,
-      attachmentType: AttachmentTypeEnum.File,
+      attachmentType: type,
       user,
       isRightSided: true,
       createdDate: new Date().toString(),

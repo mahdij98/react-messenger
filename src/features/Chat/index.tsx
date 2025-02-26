@@ -9,6 +9,7 @@ import RightSide from "../../components/Message/RightSide/RightSide";
 import Spinner from "../../components/Spinner/Spinner";
 import { MessageEntity } from "../../domain/MessageEntity";
 import "../../index.css";
+import { AttachmentTypeEnum } from "../../ts/enum";
 import { SymbolAssignment, UserInterface } from "../../ts/interfaces";
 import Logic from "./logic";
 export interface ChatPropsInterface {
@@ -143,7 +144,9 @@ const Chat = ({
       <ChatInput
         onSendVoice={handleSendVoice}
         onSendMessage={handleSendMessage}
-        onFileSend={handleSendFile}
+        onFileSend={(file) => handleSendFile(file, AttachmentTypeEnum.File)}
+        onImageSend={(file) => handleSendFile(file, AttachmentTypeEnum.Image)}
+        onVideoSend={(file) => handleSendFile(file, AttachmentTypeEnum.Video)}
         dynamicSymbolAssignments={dynamicSymbolAssignments}
       />
     </div>

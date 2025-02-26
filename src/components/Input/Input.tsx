@@ -1,4 +1,5 @@
 import { useRef, useState } from "react";
+import formatTimer from "../../helper/formatTimer";
 import { SymbolAssignment } from "../../ts/interfaces";
 import FileIcon from "../Icons/FileIcon";
 import MicIcon from "../Icons/MicIcon";
@@ -8,12 +9,16 @@ import SpeechBubbleCornerIcon from "../Icons/SpeechBubbleCornerIcon";
 const ChatInput = ({
   onSendMessage,
   onSendVoice,
+  onImageSend,
+  onVideoSend,
   onFileSend,
   dynamicSymbolAssignments,
 }: {
   onSendMessage: (newMessage: string) => void;
   onSendVoice: (voiceBlobUrl: string) => void;
   onFileSend: (blob: Blob) => void;
+  onImageSend: (blob: Blob) => void;
+  onVideoSend: (blob: Blob) => void;
   dynamicSymbolAssignments?: SymbolAssignment<any>[];
 }) => {
   const [message, setMessage] = useState("");
@@ -33,9 +38,11 @@ const ChatInput = ({
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newMessage = e.target.value;
     setMessage(newMessage);
-
     const match = newMessage.match(/(\S+)$/);
+    handleSymbol(match);
+  };
 
+  const handleSymbol = (match: RegExpMatchArray | null) => {
     if (match) {
       const symbol = match[0];
       if (selectedSymbol) {
@@ -52,7 +59,7 @@ const ChatInput = ({
     }
   };
 
-  const handleItemClick = (id: string, value: string) => {
+  const handleSymbolItemClick = (id: string, value: string) => {
     setMessage((prev) => {
       return prev + value + " ";
     });
@@ -101,33 +108,11 @@ const ChatInput = ({
     mediaRecorderRef.current?.stop();
   };
 
-  const handleFileClick = () => {
-    fileInputRef.current?.click();
-  };
-
-  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0];
-    if (file) {
-      onFileSend(file);
-    }
-  };
-
-  const formatTime = (time: number) => {
-    const minutes = Math.floor(time / 60);
-    const seconds = time % 60;
-    return `${minutes.toString().padStart(2, "0")}:${seconds
-      .toString()
-      .padStart(2, "0")}`;
-  };
-
-  const handleScroll = (event: React.UIEvent<HTMLDivElement>) => {
+  const handleSymbolPagination = (event: React.UIEvent<HTMLDivElement>) => {
     const { scrollTop, scrollHeight, clientHeight } = event.currentTarget;
 
-    // Check if the user is scrolling down
     if (scrollTop > previousScrollTopForSymbol) {
-      const isAtBottom = scrollTop + clientHeight >= scrollHeight - 1; // 5px threshold
-
-      // If we are at the bottom of the scrollable area, load the next page
+      const isAtBottom = scrollTop + clientHeight >= scrollHeight - 1;
       if (isAtBottom) {
         const config = dynamicSymbolAssignments?.find(
           (assignment) => assignment.symbol === selectedSymbol
@@ -136,17 +121,66 @@ const ChatInput = ({
         if (config && config?.updatePageNumber) {
           setLoading(true);
           config?.updatePageNumber(config.pagNumber + 1);
-          setPreviousScrollTopForSymbol(scrollTop); // Update the previous scroll position
+          setPreviousScrollTopForSymbol(scrollTop);
 
-          // Optionally, set loading to false after a delay
           setTimeout(() => {
             setLoading(false);
-          }, 500); // Adjust the delay as needed
+          }, 500);
         }
       }
     } else {
-      // If scrolling up, simply update the previous scroll position
       setPreviousScrollTopForSymbol(scrollTop);
+    }
+  };
+
+  const IMAGE_MIME_TYPES = new Set([
+    "jpeg",
+    "png",
+    "gif",
+    "webp",
+    "bmp",
+    "svg+xml",
+    "tiff",
+    "x-icon",
+  ]);
+
+  const VIDEO_MIME_TYPES = new Set([
+    "mp4",
+    "webm",
+    "ogg",
+    "mpeg",
+    "quicktime",
+    "x-msvideo",
+    "x-ms-wmv",
+    "3gpp",
+    "3gpp2",
+  ]);
+
+  const handleFileClick = () => {
+    fileInputRef.current?.click();
+  };
+
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+
+    let subtype: string = "";
+    if (file.type) {
+      const parts = file.type.split("/");
+      if (parts.length === 2) {
+        subtype = parts[1];
+      }
+    }
+    if (!subtype) {
+      subtype = file.name.split(".").pop()?.toLowerCase() || "";
+    }
+
+    if (IMAGE_MIME_TYPES.has(subtype)) {
+      onImageSend(file);
+    } else if (VIDEO_MIME_TYPES.has(subtype)) {
+      onVideoSend(file);
+    } else {
+      onFileSend(file);
     }
   };
 
@@ -155,7 +189,7 @@ const ChatInput = ({
       {isRecording ? (
         <div className="w-full flex justify-between items-center bg-white  p-2 pl-4 h-11 rounded-3xl ">
           <span className="text-blue-400 font-bold flex-1">
-            {formatTime(recordTime)}
+            {formatTimer(recordTime)}
           </span>
           <button
             className="cursor-pointer p-2 flex justify-center items-center bg-green-500 text-white rounded-full"
@@ -207,7 +241,7 @@ const ChatInput = ({
       {selectedSymbol && (
         <div
           className="absolute bottom-full left-0 w-full bg-white shadow-xl rounded-lg border border-gray-200 p-4 z-50 max-h-60 overflow-y-auto"
-          onScroll={handleScroll}
+          onScroll={handleSymbolPagination}
         >
           <div className="flex justify-between items-center border-b pb-2 mb-2">
             <h3 className="text-lg font-semibold text-gray-800">
@@ -239,7 +273,7 @@ const ChatInput = ({
                             <Component
                               listsProps={list}
                               onClick={(id, value) =>
-                                handleItemClick(id, value)
+                                handleSymbolItemClick(id, value)
                               }
                             />
                           </div>
@@ -252,7 +286,9 @@ const ChatInput = ({
                       >
                         <Component
                           listsProps={list}
-                          onClick={(id, value) => handleItemClick(id, value)}
+                          onClick={(id, value) =>
+                            handleSymbolItemClick(id, value)
+                          }
                         />
                       </div>
                     ));
