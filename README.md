@@ -78,14 +78,14 @@ const App = () => {
 
 ### Chat Component Configuration
 
-| Prop                       | Type                 | Default      | Description               |
-| -------------------------- | -------------------- | ------------ | ------------------------- |
-| `messages`                 | `MessageEntity[]`    | **Required** | Array of message objects  |
-| `user`                     | `UserInterface`      | **Required** | Current user details      |
-| `width`                    | `string`             | `"400px"`    | Container width           |
-| `height`                   | `string`             | `"600px"`    | Container height          |
-| `dynamicSymbolAssignments` | `SymbolAssignment[]` | `[]`         | Symbol-component mappings |
-| `className`                | `string`             | `""`         | Additional CSS classes    |
+| Prop                       | Type                          | Default      | Description               |
+| -------------------------- | ----------------------------- | ------------ | ------------------------- |
+| `messages`                 | `MessageEntity[]`             | **Required** | Array of message objects  |
+| `user`                     | `UserInterface`               | **Required** | Current user details      |
+| `width`                    | `string`                      | `"400px"`    | Container width           |
+| `height`                   | `string`                      | `"600px"`    | Container height          |
+| `dynamicSymbolAssignments` | `SymbolAssignmentInterface[]` | `[]`         | Symbol-component mappings |
+| `className`                | `string`                      | `""`         | Additional CSS classes    |
 
 **Key**:  
 📌 `Type` = Expected prop type  

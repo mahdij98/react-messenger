@@ -66,4 +66,11 @@ export class MessageEntity {
     this.symbols = symbols;
     this.isSending = isSending;
   }
+
+  updateId = (id: string) => {
+    this.id = id;
+  };
+  updateIsSending = (isSending: boolean) => {
+    this.isSending = isSending;
+  };
 }
