@@ -10,7 +10,7 @@ import Spinner from "../../components/Spinner/Spinner";
 import { MessageEntity } from "../../domain/MessageEntity";
 import "../../index.css";
 import { AttachmentTypeEnum } from "../../ts/enum";
-import { SymbolAssignment, UserInterface } from "../../ts/interfaces";
+import { SymbolAssignmentInterface, UserInterface } from "../../ts/interfaces";
 import Logic from "./logic";
 export interface ChatPropsInterface {
   messages: MessageEntity[];
@@ -23,7 +23,7 @@ export interface ChatPropsInterface {
   style?: React.CSSProperties;
   updateMessages: (messages: MessageEntity[]) => void;
   onMessageSent: (message: MessageEntity) => void;
-  dynamicSymbolAssignments?: SymbolAssignment<any>[];
+  dynamicSymbolAssignments?: SymbolAssignmentInterface<any>[];
   onDeleteMessage: (id: string) => void;
   onEditMessage: (id: string) => void;
 }

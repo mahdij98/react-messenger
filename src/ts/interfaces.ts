@@ -6,7 +6,7 @@ export interface UserInterface {
   lastName?: string;
 }
 
-export interface SymbolAssignment<T = any> {
+export interface SymbolAssignmentInterface<T = any> {
   symbol: string;
   component?: ({
     onClick,

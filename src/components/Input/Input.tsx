@@ -1,6 +1,6 @@
 import { useRef, useState } from "react";
 import formatTimer from "../../helper/formatTimer";
-import { SymbolAssignment } from "../../ts/interfaces";
+import { SymbolAssignmentInterface } from "../../ts/interfaces";
 import FileIcon from "../Icons/FileIcon";
 import MicIcon from "../Icons/MicIcon";
 import SendIcon from "../Icons/SendIcon";
@@ -19,7 +19,7 @@ const ChatInput = ({
   onFileSend: (blob: Blob) => void;
   onImageSend: (blob: Blob) => void;
   onVideoSend: (blob: Blob) => void;
-  dynamicSymbolAssignments?: SymbolAssignment<any>[];
+  dynamicSymbolAssignments?: SymbolAssignmentInterface<any>[];
 }) => {
   const [message, setMessage] = useState("");
   const [isRecording, setIsRecording] = useState(false);
