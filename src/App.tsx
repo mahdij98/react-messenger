@@ -148,7 +148,7 @@ function App() {
       text: "",
       user: { id: "7", profileImageUrl: ProfileIcon6, fullName: "Janson" },
       createdDate: "2025-02-14T08:09:22.311+00:00",
-      attachment: "//samplelib.com/lib/preview/mp3/sample-9s.mp3",
+      attachmentUrl: "//samplelib.com/lib/preview/mp3/sample-9s.mp3",
       attachmentType: AttachmentTypeEnum.Voice,
     }),
     new MessageEntity({
@@ -157,7 +157,7 @@ function App() {
       isRightSided: true,
       user: { id: "2", profileImageUrl: ProfileIcon6, fullName: "Janson" },
       createdDate: "2025-02-14T08:09:22.311+00:00",
-      attachment: "//samplelib.com/lib/preview/mp3/sample-15s.mp3",
+      attachmentUrl: "//samplelib.com/lib/preview/mp3/sample-15s.mp3",
       attachmentType: AttachmentTypeEnum.Voice,
     }),
     new MessageEntity({
@@ -165,7 +165,7 @@ function App() {
       text: "and this is your response",
       user: { id: "7", profileImageUrl: ProfileIcon6, fullName: "Janson" },
       createdDate: "2025-02-14T08:09:22.311+00:00",
-      attachment: "//samplelib.com/lib/preview/mp3/sample-12s.mp3",
+      attachmentUrl: "//samplelib.com/lib/preview/mp3/sample-12s.mp3",
       attachmentType: AttachmentTypeEnum.Voice,
     }),
     new MessageEntity({
@@ -173,14 +173,14 @@ function App() {
       text: "this is cool",
       user: { id: "7", profileImageUrl: ProfileIcon6, fullName: "Janson" },
       createdDate: "2025-02-14T08:09:22.311+00:00",
-      attachment: ProfileIcon6,
+      attachmentUrl: ProfileIcon6,
       attachmentType: AttachmentTypeEnum.Image,
     }),
     new MessageEntity({
       id: "99",
       text: "",
       isRightSided: true,
-      attachment: ProfileIcon1,
+      attachmentUrl: ProfileIcon1,
       attachmentType: AttachmentTypeEnum.File,
       attachmentFormat: "jpeg",
       user: { id: "2", fullName: "Marya" },
@@ -189,7 +189,7 @@ function App() {
     new MessageEntity({
       id: "00",
       text: "😳",
-      attachment: ProfileIcon1,
+      attachmentUrl: ProfileIcon1,
       attachmentType: AttachmentTypeEnum.File,
       attachmentFormat: "jpg",
       user: { id: "4", profileImageUrl: ProfileIcon3, fullName: "Lily" },
@@ -198,7 +198,7 @@ function App() {
     new MessageEntity({
       id: "00",
       text: "😳",
-      attachment: ProfileIcon1,
+      attachmentUrl: ProfileIcon1,
       attachmentType: AttachmentTypeEnum.File,
       attachmentFormat: "png",
       user: { id: "4", profileImageUrl: ProfileIcon3, fullName: "Lily" },

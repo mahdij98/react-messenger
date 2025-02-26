@@ -3,23 +3,23 @@ import FilePreview from "./File/File";
 import VoicePlayer from "./Voice/Voice";
 
 interface MediaProps {
-  attachment: string;
+  attachmentUrl: string;
   attachmentType?: AttachmentTypeEnum;
   attachmentFormat?: string;
 }
 const Media = ({
-  attachment,
+  attachmentUrl,
   attachmentType,
   attachmentFormat,
 }: MediaProps) => {
-  if (!attachment) return null;
+  if (!attachmentUrl) return null;
   return attachmentType === AttachmentTypeEnum.Voice ? (
     <div className="w-full">
-      <VoicePlayer src={attachment} />
+      <VoicePlayer src={attachmentUrl} />
     </div>
   ) : attachmentType === AttachmentTypeEnum.Image ? (
     <div className="w-full">
-      <img src={attachment} />
+      <img src={attachmentUrl} />
     </div>
   ) : attachmentType === AttachmentTypeEnum.File ? (
     <div className="w-full mt-1">
@@ -27,7 +27,7 @@ const Media = ({
         fileName="productivity"
         fileSize={23000}
         format={attachmentFormat ?? "UN"}
-        src={attachment}
+        src={attachmentUrl}
       />
     </div>
   ) : attachmentType === AttachmentTypeEnum.Video ? (
@@ -36,7 +36,7 @@ const Media = ({
         fileName="productivity"
         fileSize={23000}
         format={attachmentFormat ?? "UN"}
-        src={attachment}
+        src={attachmentUrl}
       />
     </div>
   ) : null;

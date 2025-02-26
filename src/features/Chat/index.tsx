@@ -87,10 +87,10 @@ const Chat = ({
           <AnimatePresence>
             {messages.length > 0
               ? messages.map((message, index) => {
-                  const media = message?.attachment ? (
+                  const media = message?.attachmentUrl ? (
                     <Media
                       key={index}
-                      attachment={message.attachment}
+                      attachmentUrl={message.attachmentUrl}
                       attachmentType={message?.attachmentType}
                       attachmentFormat={message?.attachmentFormat}
                     />

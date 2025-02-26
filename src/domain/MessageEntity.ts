@@ -5,7 +5,8 @@ export class MessageEntity {
   id: string = "0";
   text = "";
   createdDate: string = "";
-  attachment: undefined | string = "";
+  attachmentUrl: undefined | string = "";
+  attachmentBlob: Blob | undefined;
   attachmentType: AttachmentTypeEnum | undefined = undefined;
   attachmentFormat: string | undefined = "";
   user: UserInterface = { id: "" };
@@ -24,9 +25,10 @@ export class MessageEntity {
     id,
     text,
     createdDate,
-    attachment,
+    attachmentUrl,
     attachmentType,
     attachmentFormat,
+    attachmentBlob,
     user,
     isRightSided,
     symbols,
@@ -35,9 +37,10 @@ export class MessageEntity {
     id: string;
     text: string;
     createdDate: string;
-    attachment?: string;
+    attachmentUrl?: string;
     attachmentType?: AttachmentTypeEnum;
     attachmentFormat?: string;
+    attachmentBlob?: Blob;
     user: UserInterface;
     isRightSided?: boolean;
     symbols?:
@@ -54,9 +57,10 @@ export class MessageEntity {
     this.id = id;
     this.text = text;
     this.createdDate = createdDate;
-    this.attachment = attachment;
+    this.attachmentUrl = attachmentUrl;
     this.attachmentType = attachmentType;
     this.attachmentFormat = attachmentFormat;
+    this.attachmentBlob = attachmentBlob;
     this.user = user;
     this.isRightSided = isRightSided;
     this.symbols = symbols;

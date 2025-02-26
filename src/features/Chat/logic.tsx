@@ -81,12 +81,14 @@ const Logic = ({
     moveScrollBarToBottom();
   };
 
-  const handleSendVoice = (voiceBlobUrl: string) => {
+  const handleSendVoice = (voiceBlob: Blob) => {
+    const audioUrl = URL.createObjectURL(voiceBlob);
     const newMessage = new MessageEntity({
       id: new Date().toString(),
       text: "",
-      attachment: voiceBlobUrl,
+      attachmentUrl: audioUrl,
       attachmentType: AttachmentTypeEnum.Voice,
+      attachmentBlob: voiceBlob,
       user,
       isRightSided: true,
       createdDate: new Date().toString(),
@@ -98,11 +100,11 @@ const Logic = ({
 
   const handleSendFile = (file: Blob, type: AttachmentTypeEnum) => {
     const fileUrl = URL.createObjectURL(file);
-
     const newMessage = new MessageEntity({
       id: new Date().toString(),
       text: "",
-      attachment: fileUrl,
+      attachmentUrl: fileUrl,
+      attachmentBlob: file,
       attachmentType: type,
       user,
       isRightSided: true,

@@ -15,7 +15,7 @@ const ChatInput = ({
   dynamicSymbolAssignments,
 }: {
   onSendMessage: (newMessage: string) => void;
-  onSendVoice: (voiceBlobUrl: string) => void;
+  onSendVoice: (voiceBlobUrl: Blob) => void;
   onFileSend: (blob: Blob) => void;
   onImageSend: (blob: Blob) => void;
   onVideoSend: (blob: Blob) => void;
@@ -96,8 +96,7 @@ const ChatInput = ({
     mediaRecorder.onstop = () => {
       clearInterval(timerRef.current!);
       const audioBlob = new Blob(audioChunksRef.current, { type: "audio/mp3" });
-      const audioUrl = URL.createObjectURL(audioBlob);
-      onSendVoice(audioUrl);
+      onSendVoice(audioBlob);
       setIsRecording(false);
     };
 
