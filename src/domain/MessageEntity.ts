@@ -7,6 +7,7 @@ export class MessageEntity {
   createdDate: string = "";
   attachment: undefined | string = "";
   attachmentType: AttachmentTypeEnum | undefined = undefined;
+  attachmentFormat: string | undefined = "";
   user: UserInterface = { id: "" };
   isRightSided: boolean | undefined = false;
   symbols:
@@ -25,6 +26,7 @@ export class MessageEntity {
     createdDate,
     attachment,
     attachmentType,
+    attachmentFormat,
     user,
     isRightSided,
     symbols,
@@ -35,6 +37,7 @@ export class MessageEntity {
     createdDate: string;
     attachment?: string;
     attachmentType?: AttachmentTypeEnum;
+    attachmentFormat?: string;
     user: UserInterface;
     isRightSided?: boolean;
     symbols?:
@@ -53,6 +56,7 @@ export class MessageEntity {
     this.createdDate = createdDate;
     this.attachment = attachment;
     this.attachmentType = attachmentType;
+    this.attachmentFormat = attachmentFormat;
     this.user = user;
     this.isRightSided = isRightSided;
     this.symbols = symbols;

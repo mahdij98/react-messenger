@@ -92,6 +92,7 @@ const Chat = ({
                       key={index}
                       attachment={message.attachment}
                       attachmentType={message?.attachmentType}
+                      attachmentFormat={message?.attachmentFormat}
                     />
                   ) : null;
 

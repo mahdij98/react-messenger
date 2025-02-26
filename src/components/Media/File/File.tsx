@@ -20,9 +20,29 @@ const FilePreview: React.FC<FilePreviewProps> = ({
       pdf: <p className="p-2 text-red-500 font-bold">{format}</p>,
       doc: <p className="p-2 text-blue-400 font-bold">{format}</p>,
       vid: <p className="p-2 text-orange-400 font-bold">{format}</p>,
-      "": <p className="p-2 text-black font-bold">{format}</p>,
+      txt: <p className="p-2 text-purple-500 font-bold">{format}</p>,
+      xls: <p className="p-2 text-green-400 font-bold">{format}</p>,
+      ppt: <p className="p-2 text-yellow-500 font-bold">{format}</p>,
+      png: <p className="p-2 text-pink-500 font-bold">{format}</p>,
+      jpg: <p className="p-2 text-indigo-500 font-bold">{format}</p>,
+      mp3: <p className="p-2 text-teal-500 font-bold">{format}</p>,
+      mp4: <p className="p-2 text-gray-500 font-bold">{format}</p>,
+      exe: <p className="p-2 text-red-400 font-bold">{format}</p>,
+      html: <p className="p-2 text-orange-500 font-bold">{format}</p>,
+      css: <p className="p-2 text-blue-300 font-bold">{format}</p>,
+      js: <p className="p-2 text-yellow-400 font-bold">{format}</p>,
+      json: <p className="p-2 text-purple-400 font-bold">{format}</p>,
+      xml: <p className="p-2 text-green-300 font-bold">{format}</p>,
+      svg: <p className="p-2 text-pink-400 font-bold">{format}</p>,
+      gif: <p className="p-2 text-indigo-400 font-bold">{format}</p>,
+      csv: <p className="p-2 text-teal-400 font-bold">{format}</p>,
+      sql: <p className="p-2 text-gray-400 font-bold">{format}</p>,
     };
-    return icons[format || ""];
+    return format && icons[format] ? (
+      icons[format]
+    ) : (
+      <p className="p-2 text-black ">{format ?? "UN"}</p>
+    );
   };
 
   const formatFileSize = (size: number) => {
@@ -33,7 +53,7 @@ const FilePreview: React.FC<FilePreviewProps> = ({
 
   return (
     <div className="flex items-center rounded-lg">
-      <div className="mr-3 relative border border-green-950 rounded-md p-3">
+      <div className="w-14 h-14 mr-3 flex items-center justify-center relative border border-green-900 rounded-md p-3">
         {getFileIcon()}
       </div>
       <div className="flex flex-col flex-grow">

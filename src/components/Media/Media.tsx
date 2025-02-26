@@ -5,8 +5,13 @@ import VoicePlayer from "./Voice/Voice";
 interface MediaProps {
   attachment: string;
   attachmentType?: AttachmentTypeEnum;
+  attachmentFormat?: string;
 }
-const Media = ({ attachment, attachmentType }: MediaProps) => {
+const Media = ({
+  attachment,
+  attachmentType,
+  attachmentFormat,
+}: MediaProps) => {
   if (!attachment) return null;
   return attachmentType === AttachmentTypeEnum.Voice ? (
     <div className="w-full">
@@ -21,7 +26,7 @@ const Media = ({ attachment, attachmentType }: MediaProps) => {
       <FilePreview
         fileName="productivity"
         fileSize={23000}
-        format="rar"
+        format={attachmentFormat ?? "UN"}
         src={attachment}
       />
     </div>
@@ -30,7 +35,7 @@ const Media = ({ attachment, attachmentType }: MediaProps) => {
       <FilePreview
         fileName="productivity"
         fileSize={23000}
-        format="rar"
+        format={attachmentFormat ?? "UN"}
         src={attachment}
       />
     </div>
