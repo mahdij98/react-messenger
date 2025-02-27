@@ -7,7 +7,7 @@ import ProfileIcon5 from "./assets/3.png";
 import ProfileIcon2 from "./assets/4.png";
 import { MessageEntity } from "./domain/MessageEntity";
 import Chat from "./features/Chat";
-import { AttachmentTypeEnum } from "./ts/enum";
+import { AttachmentTypeEnum, ChatThemEntity } from "./ts/enum";
 import { UserInterface } from "./ts/interfaces";
 
 export interface TaskInterface {
@@ -270,7 +270,8 @@ function App() {
   return (
     <Chat
       messages={messages}
-      // backgroundImage={ProfileIcon1}
+      backgroundImage={ProfileIcon1}
+      them={ChatThemEntity.Simple}
       dynamicSymbolAssignments={[
         {
           symbol: "#",

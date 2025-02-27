@@ -14,7 +14,7 @@ const RightSide = ({
 }: {
   media: JSX.Element | null;
   message: MessageEntity;
-  them: ChatThemEntity;
+  them?: ChatThemEntity;
   handleContextMenu: (event: React.MouseEvent, message: MessageEntity) => void;
 }) => {
   return (
@@ -56,7 +56,17 @@ const RightSide = ({
           />
         )}
         {message.isEdited ? (
-          <span className="text-xs text-gray-600 italic">edited</span>
+          <span
+            className={`text-xs italic ${
+              them === ChatThemEntity.Simple
+                ? "text-gray-200"
+                : them === ChatThemEntity.Telegram
+                ? "text-gray-600 "
+                : ""
+            }`}
+          >
+            edited
+          </span>
         ) : (
           ""
         )}

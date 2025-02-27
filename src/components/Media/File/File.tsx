@@ -1,10 +1,12 @@
 import React from "react";
+import { ChatThemEntity } from "../../../ts/enum";
 
 interface FilePreviewProps {
   format?: string;
   fileName: string;
   fileSize: number; // in bytes
   src: string; // Download URL
+  them?: ChatThemEntity;
 }
 
 const FilePreview: React.FC<FilePreviewProps> = ({
@@ -12,6 +14,7 @@ const FilePreview: React.FC<FilePreviewProps> = ({
   fileSize,
   format,
   src,
+  them,
 }) => {
   const getFileIcon = () => {
     const icons: { [key: string]: JSX.Element } = {
@@ -53,18 +56,40 @@ const FilePreview: React.FC<FilePreviewProps> = ({
 
   return (
     <div className="flex items-center rounded-lg">
-      <div className="w-14 h-14 mr-3 flex items-center justify-center relative border border-green-900 rounded-md p-3">
+      <div
+        className={` border ${
+          them === ChatThemEntity.Simple
+            ? " border-white "
+            : them === ChatThemEntity.Telegram
+            ? " border-green-900"
+            : ""
+        } w-14 h-14 mr-3 flex items-center justify-center relative  rounded-md p-3`}
+      >
         {getFileIcon()}
       </div>
       <div className="flex flex-col flex-grow">
         <a
           href={src}
           download={fileName}
-          className="text-gray-900 font-medium hover:underline"
+          className={`${
+            them === ChatThemEntity.Simple
+              ? "text-white"
+              : them === ChatThemEntity.Telegram
+              ? "text-gray-900"
+              : ""
+          }  font-medium hover:underline`}
         >
           {fileName}
         </a>
-        <span className="text-gray-600 text-sm">
+        <span
+          className={`${
+            them === ChatThemEntity.Simple
+              ? "text-gray-800"
+              : them === ChatThemEntity.Telegram
+              ? "text-gray-900"
+              : ""
+          }   text-sm`}
+        >
           {formatFileSize(fileSize)}
         </span>
       </div>

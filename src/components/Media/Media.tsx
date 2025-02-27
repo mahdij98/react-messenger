@@ -1,4 +1,4 @@
-import { AttachmentTypeEnum } from "../../ts/enum";
+import { AttachmentTypeEnum, ChatThemEntity } from "../../ts/enum";
 import FilePreview from "./File/File";
 import VoicePlayer from "./Voice/Voice";
 
@@ -6,11 +6,13 @@ interface MediaProps {
   attachmentUrl: string;
   attachmentType?: AttachmentTypeEnum;
   attachmentFormat?: string;
+  them?: ChatThemEntity;
 }
 const Media = ({
   attachmentUrl,
   attachmentType,
   attachmentFormat,
+  them,
 }: MediaProps) => {
   if (!attachmentUrl) return null;
   return attachmentType === AttachmentTypeEnum.Voice ? (
