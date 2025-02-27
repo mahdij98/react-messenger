@@ -270,7 +270,7 @@ function App() {
   return (
     <Chat
       messages={messages}
-      backgroundImage={ProfileIcon1}
+      // backgroundImage={ProfileIcon1}
       dynamicSymbolAssignments={[
         {
           symbol: "#",

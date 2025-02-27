@@ -9,7 +9,7 @@ import RightSide from "../../components/Message/RightSide/RightSide";
 import Spinner from "../../components/Spinner/Spinner";
 import { MessageEntity } from "../../domain/MessageEntity";
 import "../../index.css";
-import { AttachmentTypeEnum } from "../../ts/enum";
+import { AttachmentTypeEnum, ChatThemEntity } from "../../ts/enum";
 import { SymbolAssignmentInterface, UserInterface } from "../../ts/interfaces";
 import Logic from "./logic";
 export interface ChatPropsInterface {
@@ -26,6 +26,7 @@ export interface ChatPropsInterface {
   dynamicSymbolAssignments?: SymbolAssignmentInterface<any>[];
   onDeleteMessage: (id: string) => void;
   onEditMessage: (message: MessageEntity) => void;
+  them: ChatThemEntity;
 }
 
 const Chat = ({
@@ -42,6 +43,7 @@ const Chat = ({
   onEditMessage,
   dynamicSymbolAssignments,
   backgroundImage,
+  them = ChatThemEntity.Telegram,
 }: ChatPropsInterface) => {
   const {
     handleDeleteConfirmation,
@@ -106,6 +108,7 @@ const Chat = ({
                         media={media}
                         handleContextMenu={handleContextMenu}
                         message={message}
+                        them={them}
                       />
                     );
 
@@ -119,6 +122,7 @@ const Chat = ({
                       media={media}
                       handleContextMenu={handleContextMenu}
                       message={message}
+                      them={them}
                     />
                   );
                 })

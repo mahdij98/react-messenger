@@ -290,7 +290,7 @@ const ChatInput = ({
             <input
               type="text"
               ref={inputRef}
-              className="w-full  bg-white flex-1 p-2 pl-4 border border-gray-300 outline-none rounded-tl-3xl rounded-tr-2xl rounded-bl-3xl  "
+              className="w-full  bg-white flex-1 p-2 pr-10 pl-4 border border-gray-300 outline-none rounded-tl-3xl rounded-tr-2xl rounded-bl-3xl  "
               placeholder="Type a message..."
               value={message}
               onChange={handleInputChange}

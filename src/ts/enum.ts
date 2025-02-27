@@ -4,3 +4,8 @@ export enum AttachmentTypeEnum {
   "Video",
   "Image",
 }
+
+export enum ChatThemEntity {
+  "Telegram",
+  "Simple",
+}
