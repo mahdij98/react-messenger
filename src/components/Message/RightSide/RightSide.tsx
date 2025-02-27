@@ -71,13 +71,12 @@ const RightSide = ({
           ""
         )}
       </div>
-
       <SpeechBubbleCornerIcon
         className={`fill-blue-200 rotate-180 absolute -right-2 bottom-0  ${
           them === ChatThemEntity.Telegram
             ? "[&>g>path]:fill-green-200"
             : ChatThemEntity.Simple
-            ? " z-[-1] [&>g>path]:fill-[#4F46E5]"
+            ? "[&>g>path]:fill-[#4F46E5]"
             : ""
         } `}
       />
