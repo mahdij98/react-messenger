@@ -272,6 +272,8 @@ function App() {
       messages={messages}
       backgroundImage={ProfileIcon1}
       them={ChatThemEntity.Simple}
+      isSendingDefultForNewMessage
+      isSendingDefultForEdited
       dynamicSymbolAssignments={[
         {
           symbol: "#",

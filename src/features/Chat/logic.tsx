@@ -12,11 +12,13 @@ const Logic = ({
   onMessageSent,
   onEditMessage,
   isSendingDefultForNewMessage,
+  isSendingDefultForEdited,
   onDeleteMessage,
 }: {
   messages: MessageEntity[];
   user: UserInterface;
   isSendingDefultForNewMessage?: boolean;
+  isSendingDefultForEdited?: boolean;
   updateMessages: (messages: MessageEntity[]) => void;
   onMessageSent: (message: MessageEntity) => void;
   onDeleteMessage: (id: string) => void;
@@ -89,7 +91,10 @@ const Logic = ({
   const handleEditMessage = (editedMessage: MessageEntity) => {
     updateMessages(
       messages.map((message) => {
-        if (message.id === editedMessage.id) return editedMessage;
+        if (message.id === editedMessage.id) {
+          editedMessage.updateIsSending(Boolean(isSendingDefultForEdited));
+          return editedMessage;
+        }
         return message;
       })
     );
