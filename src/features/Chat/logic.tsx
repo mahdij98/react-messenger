@@ -11,10 +11,12 @@ const Logic = ({
   updateMessages,
   onMessageSent,
   onEditMessage,
+  isSendingDefultForNewMessage,
   onDeleteMessage,
 }: {
   messages: MessageEntity[];
   user: UserInterface;
+  isSendingDefultForNewMessage?: boolean;
   updateMessages: (messages: MessageEntity[]) => void;
   onMessageSent: (message: MessageEntity) => void;
   onDeleteMessage: (id: string) => void;
@@ -77,6 +79,7 @@ const Logic = ({
       text,
       user,
       isRightSided: true,
+      isSending: isSendingDefultForNewMessage,
       createdDate: new Date().toString(),
     });
     updateMessages([...messages, newMessage]);

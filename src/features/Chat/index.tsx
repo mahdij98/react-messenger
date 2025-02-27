@@ -18,6 +18,7 @@ export interface ChatPropsInterface {
   width?: string;
   height?: string;
   isLoadingChat?: boolean;
+  isSendingDefultForNewMessage?: boolean;
   className?: string;
   backgroundImage?: string;
   style?: React.CSSProperties;
@@ -42,6 +43,7 @@ const Chat = ({
   onDeleteMessage,
   onEditMessage,
   dynamicSymbolAssignments,
+  isSendingDefultForNewMessage,
   backgroundImage,
   them = ChatThemEntity.Telegram,
 }: ChatPropsInterface) => {
@@ -67,6 +69,7 @@ const Chat = ({
     onMessageSent,
     onEditMessage,
     onDeleteMessage,
+    isSendingDefultForNewMessage,
   });
 
   return (
