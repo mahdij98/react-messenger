@@ -46,12 +46,17 @@ const LeftSide = ({
         </span>
         {media ? media : null}
         <span>{message.text}</span>
-        <div className="w-full flex gap- items-center justify-end">
+        <div className="w-full flex gap-1 items-center justify-end">
           <span className="text-[10px]">
             {new Date(message.createdDate).toLocaleTimeString().split(":")[0] +
               ":" +
               new Date(message.createdDate).toLocaleTimeString().split(":")[1]}
           </span>
+          {message.isEdited ? (
+            <span className="text-xs text-gray-600 italic">edited</span>
+          ) : (
+            ""
+          )}
         </div>
         <SpeechBubbleCornerIcon className="fill-blue-200 -rotate-180 scale-x-[-1] transition-discrete absolute -left-2 bottom-0 [&>g>path]:fill-green-200" />
       </motion.div>
