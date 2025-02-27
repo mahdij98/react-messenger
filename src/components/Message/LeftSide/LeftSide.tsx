@@ -83,9 +83,9 @@ const LeftSide = ({
             them === ChatThemEntity.Simple
               ? "[&>g>path]:fill-[#f8fbff]"
               : them === ChatThemEntity.Telegram
-              ? "[&>g>path]:fill-blue-200 "
+              ? "[&>g>path]:fill-blue-200"
               : ""
-          } -rotate-180 scale-x-[-1] transition-discrete absolute z-[-1] -left-2 bottom-0 `}
+          } -rotate-180 scale-x-[-1] transition-discrete absolute -left-2 bottom-0 `}
         />
       </motion.div>
     </>
