@@ -30,9 +30,16 @@ const LeftSide = ({
         onContextMenu={(event: any) => handleContextMenu(event, message)}
         className={`relative ${
           media ? "w-3/4" : "w-fit max-w-3/4"
-        }flex flex-col gap-1 md:max-w-[400px]  p-2 pt-5 rounded-lg bg-green-200`}
+        } flex flex-col gap-1 md:max-w-[400px]  p-2 pt-5 rounded-lg bg-green-200`}
       >
-        <span className="absolute top-1 text-xs text-orange-700 whitespace-nowrap">
+        <span
+          title={
+            message.user?.fullName && message.user?.fullName?.length > 16
+              ? message.user?.firstName
+              : message.user?.fullName
+          }
+          className="relative -top-3 h-4 -mb-3 overflow-y-visible text-xs text-orange-700 whitespace-nowrap truncate max-w-[100px] overflow-visible"
+        >
           {message.user?.fullName && message.user?.fullName?.length > 16
             ? message.user?.firstName
             : message.user?.fullName}

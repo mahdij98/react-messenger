@@ -204,6 +204,17 @@ function App() {
       user: { id: "4", profileImageUrl: ProfileIcon3, fullName: "Lily" },
       createdDate: "2025-02-14T08:09:22.311+00:00",
     }),
+    new MessageEntity({
+      id: "178",
+      text: "and",
+      user: {
+        id: "1",
+        profileImageUrl: ProfileIcon6,
+        fullName: "Janson and jonse very happy",
+        firstName: "Janson and jonse very happy",
+      },
+      createdDate: "2025-02-14T08:09:22.311+00:00",
+    }),
   ];
 
   const currentUser: UserInterface = {
