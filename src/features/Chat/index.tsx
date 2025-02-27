@@ -25,7 +25,7 @@ export interface ChatPropsInterface {
   onMessageSent: (message: MessageEntity) => void;
   dynamicSymbolAssignments?: SymbolAssignmentInterface<any>[];
   onDeleteMessage: (id: string) => void;
-  onEditMessage: (id: string) => void;
+  onEditMessage: (message: MessageEntity) => void;
 }
 
 const Chat = ({
@@ -55,6 +55,9 @@ const Chat = ({
     contextMenu,
     chatRef,
     setIsModalOpen,
+    messageToEdit,
+    setMessageToEdit,
+    handleEditMessage,
   } = Logic({
     user,
     messages,
@@ -149,6 +152,9 @@ const Chat = ({
         onImageSend={(file) => handleSendFile(file, AttachmentTypeEnum.Image)}
         onVideoSend={(file) => handleSendFile(file, AttachmentTypeEnum.Video)}
         dynamicSymbolAssignments={dynamicSymbolAssignments}
+        messageToEdit={messageToEdit}
+        setMessageToEdit={setMessageToEdit}
+        onEditMessage={handleEditMessage}
       />
     </div>
   );

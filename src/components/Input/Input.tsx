@@ -1,4 +1,5 @@
 import { useRef, useState } from "react";
+import { MessageEntity } from "../../domain/MessageEntity";
 import formatTimer from "../../helper/formatTimer";
 import { SymbolAssignmentInterface } from "../../ts/interfaces";
 import FileIcon from "../Icons/FileIcon";
@@ -8,18 +9,26 @@ import SpeechBubbleCornerIcon from "../Icons/SpeechBubbleCornerIcon";
 
 const ChatInput = ({
   onSendMessage,
+  onEditMessage,
   onSendVoice,
   onImageSend,
   onVideoSend,
   onFileSend,
   dynamicSymbolAssignments,
+  messageToEdit,
+  setMessageToEdit,
 }: {
   onSendMessage: (newMessage: string) => void;
+  onEditMessage: (newMessageEntity: MessageEntity) => void;
   onSendVoice: (voiceBlobUrl: Blob) => void;
   onFileSend: (blob: Blob) => void;
   onImageSend: (blob: Blob) => void;
   onVideoSend: (blob: Blob) => void;
   dynamicSymbolAssignments?: SymbolAssignmentInterface<any>[];
+  messageToEdit?: MessageEntity;
+  setMessageToEdit: React.Dispatch<
+    React.SetStateAction<MessageEntity | undefined>
+  >;
 }) => {
   const [message, setMessage] = useState("");
   const [isRecording, setIsRecording] = useState(false);
@@ -37,7 +46,19 @@ const ChatInput = ({
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newMessage = e.target.value;
-    setMessage(newMessage);
+    console.log("Input", newMessage);
+
+    if (messageToEdit)
+      setMessageToEdit((pre) => {
+        if (!pre) return undefined;
+        const newEntity = new MessageEntity({
+          ...pre,
+          text: newMessage,
+          isEdited: true,
+        });
+        return newEntity;
+      });
+    else setMessage(newMessage);
     const match = newMessage.match(/(\S+)$/);
     handleSymbol(match);
   };
@@ -60,17 +81,33 @@ const ChatInput = ({
   };
 
   const handleSymbolItemClick = (id: string, value: string) => {
-    setMessage((prev) => {
-      return prev + value + " ";
-    });
+    if (messageToEdit)
+      setMessageToEdit((pre) => {
+        if (!pre) return undefined;
+        const newEntity = new MessageEntity({
+          ...pre,
+          text: pre.text + value + " ",
+        });
+        return newEntity;
+      });
+    else
+      setMessage((prev) => {
+        return prev + value + " ";
+      });
     setSelectedSymbol(null);
     inputRef.current.focus();
   };
 
   const handleSendMessage = () => {
-    if (message.trim() === "") return;
-    onSendMessage(message);
-    setMessage("");
+    if (messageToEdit) {
+      if (messageToEdit.text.trim() === "") return;
+      onEditMessage(messageToEdit);
+      setMessageToEdit(undefined);
+    } else {
+      if (message.trim() === "") return;
+      onSendMessage(message);
+      setMessage("");
+    }
     setSelectedSymbol(null);
   };
 
@@ -197,6 +234,43 @@ const ChatInput = ({
             <SendIcon />
           </button>
         </div>
+      ) : messageToEdit ? (
+        <>
+          <div className="w-[90%] relative ">
+            <div className="flex justify-between items-center px-2 h-12 bottom-10 absolute w-full border-t border-x border-gray-300 bg-white rounded-t-lg ">
+              <span className="text-gray-400 whitespace-nowrap truncate">
+                {messageToEdit.text}
+              </span>
+              <button
+                className="text-gray-500 hover:text-gray-700 -mt-4"
+                onClick={() => setMessageToEdit(undefined)}
+              >
+                ✕
+              </button>
+            </div>
+            <input
+              type="text"
+              ref={inputRef}
+              className="w-full  bg-white flex-1 p-2 pl-4 border border-gray-300 outline-none rounded-bl-3xl  "
+              placeholder="Type a message..."
+              value={messageToEdit.text}
+              onChange={handleInputChange}
+              onKeyDown={(e) => {
+                if (e.key === "Enter" && !e.shiftKey) {
+                  e.preventDefault();
+                  handleSendMessage();
+                }
+              }}
+            />
+            <SpeechBubbleCornerIcon className="rotate-180 absolute -right-[11.4px] top-5" />
+          </div>
+          <button
+            className="flex items-center justify-center cursor-pointer w-9 h-9 ml-2 p-2 bg-blue-500 text-white rounded-full hover:bg-blue-600 transition"
+            onClick={handleSendMessage}
+          >
+            <SendIcon />
+          </button>
+        </>
       ) : (
         <>
           <div className="w-[90%] relative ">
@@ -212,6 +286,7 @@ const ChatInput = ({
               style={{ display: "none" }}
               onChange={handleFileChange}
             />
+
             <input
               type="text"
               ref={inputRef}
@@ -236,7 +311,6 @@ const ChatInput = ({
           </button>
         </>
       )}
-
       {selectedSymbol && (
         <div
           className="absolute bottom-full left-0 w-full bg-white shadow-xl rounded-lg border border-gray-200 p-4 z-50 max-h-60 overflow-y-auto"

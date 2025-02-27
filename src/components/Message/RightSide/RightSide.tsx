@@ -38,6 +38,11 @@ const RightSide = ({
         ) : (
           <DoubleCheckIcon />
         )}
+        {message.isEdited ? (
+          <span className="text-xs text-gray-600 italic">edited</span>
+        ) : (
+          ""
+        )}
       </div>
 
       <SpeechBubbleCornerIcon className="fill-blue-200 rotate-180 absolute -right-2 bottom-0 [&>g>path]:fill-blue-200" />

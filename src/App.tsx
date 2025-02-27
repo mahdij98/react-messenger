@@ -285,7 +285,7 @@ function App() {
       user={currentUser}
       updateMessages={setMessages}
       onDeleteMessage={handleDeleteMessage}
-      onEditMessage={(id) => {}}
+      onEditMessage={(editedMessage) => {}}
       onMessageSent={(newMessage) => {}}
       className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-lg bg-gray-100 border "
     />

@@ -18,11 +18,14 @@ const Logic = ({
   updateMessages: (messages: MessageEntity[]) => void;
   onMessageSent: (message: MessageEntity) => void;
   onDeleteMessage: (id: string) => void;
-  onEditMessage: (id: string) => void;
+  onEditMessage: (message: MessageEntity) => void;
 }) => {
   const chatRef = useRef<HTMLDivElement>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [messageToDelete, setMessageToDelete] = useState<string | null>(null);
+  const [messageToEdit, setMessageToEdit] = useState<
+    MessageEntity | undefined
+  >();
   const [contextMenu, setContextMenu] = useState<{
     x: number;
     y: number;
@@ -80,6 +83,15 @@ const Logic = ({
     onMessageSent(newMessage);
     moveScrollBarToBottom();
   };
+  const handleEditMessage = (editedMessage: MessageEntity) => {
+    updateMessages(
+      messages.map((message) => {
+        if (message.id === editedMessage.id) return editedMessage;
+        return message;
+      })
+    );
+    onEditMessage(editedMessage);
+  };
 
   const handleSendVoice = (voiceBlob: Blob) => {
     const audioUrl = URL.createObjectURL(voiceBlob);
@@ -122,9 +134,8 @@ const Logic = ({
       icon: <Edit className="text-gray-600" />,
       onlyCurrentUserMessage: true,
       onClick: (id: string) => {
-        console.log("Edit clicked");
+        setMessageToEdit(messages.find((msg) => msg.id === id));
         handleCloseContextMenu();
-        onEditMessage(id);
       },
     },
     {
@@ -178,6 +189,9 @@ const Logic = ({
     contextMenu,
     chatRef,
     setIsModalOpen,
+    messageToEdit,
+    setMessageToEdit,
+    handleEditMessage,
   };
 };
 
