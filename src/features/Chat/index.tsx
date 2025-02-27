@@ -26,7 +26,7 @@ export interface ChatPropsInterface {
   dynamicSymbolAssignments?: SymbolAssignmentInterface<any>[];
   onDeleteMessage: (id: string) => void;
   onEditMessage: (message: MessageEntity) => void;
-  them: ChatThemEntity;
+  them?: ChatThemEntity;
 }
 
 const Chat = ({
