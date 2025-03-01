@@ -5,58 +5,13 @@ import ProfileIcon1 from "./assets/12.png";
 import ProfileIcon6 from "./assets/2.png";
 import ProfileIcon5 from "./assets/3.png";
 import ProfileIcon2 from "./assets/4.png";
+import SymbolsListComponent, {
+  SymbolItemInterface,
+} from "./components/Symbols/SymbolsListComponent";
 import { MessageEntity } from "./domain/MessageEntity";
 import Chat from "./features/Chat";
 import { AttachmentTypeEnum, ChatThemEntity } from "./ts/enum";
 import { UserInterface } from "./ts/interfaces";
-
-export interface TaskInterface {
-  id: string;
-  name: string;
-}
-
-export interface TasksProps {
-  symbol?: string;
-  task: TaskInterface;
-  onClick: (id: string, text: string) => void;
-}
-const Tasks = ({ symbol, onClick, task }: TasksProps) => {
-  return (
-    <div
-      onClick={() => {
-        onClick(task.id, task.name);
-      }}
-      className="flex gap-2 justify-between, items-center"
-    >
-      <div>{symbol}</div>
-      <div>{task.name}</div>
-    </div>
-  );
-};
-
-export interface UserPropsInterface {
-  id: string;
-  name: string;
-}
-
-export interface UserProps {
-  symbol?: string;
-  user: UserPropsInterface;
-  onClick: (id: string, value: string) => void;
-}
-const User = ({ symbol, onClick, user }: UserProps) => {
-  return (
-    <div
-      onClick={() => {
-        onClick(user.id, user.name);
-      }}
-      className="flex gap-2 justify-between, items-center"
-    >
-      <div>{symbol}</div>
-      <div>{user.name}</div>
-    </div>
-  );
-};
 
 function App() {
   const oldMessages = [
@@ -223,7 +178,7 @@ function App() {
     fullName: "Marya",
   };
 
-  const taskLists: TaskInterface[] = [
+  const taskLists: SymbolItemInterface[] = [
     { name: "task1", id: "111" },
     { name: "task1", id: "111" },
     { name: "task2", id: "2222" },
@@ -235,7 +190,7 @@ function App() {
     { name: "task2", id: "2222" },
     { name: "task2", id: "2222" },
   ];
-  const userLists: UserPropsInterface[] = [
+  const userLists: SymbolItemInterface[] = [
     { name: "mahdi", id: "111" },
     { name: "zare", id: "2222" },
     { name: "zare", id: "2222" },
@@ -278,7 +233,7 @@ function App() {
         {
           symbol: "#",
           component({ onClick, listsProps }) {
-            return <Tasks task={listsProps} onClick={onClick} />;
+            return <SymbolsListComponent item={listsProps} onClick={onClick} />;
           },
           lists: taskLists,
           pagNumber: pagNumber,
@@ -287,7 +242,7 @@ function App() {
         {
           symbol: "@",
           component({ onClick, listsProps }) {
-            return <User user={listsProps} onClick={onClick} />;
+            return <SymbolsListComponent item={listsProps} onClick={onClick} />;
           },
           lists: userLists,
           pagNumber: pagNumber,

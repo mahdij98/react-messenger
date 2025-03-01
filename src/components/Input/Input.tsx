@@ -1,5 +1,6 @@
 import { useRef, useState } from "react";
 import { MessageEntity } from "../../domain/MessageEntity";
+import calculateTextareaLineCount from "../../helper/calculateTextareaLineCount";
 import formatTimer from "../../helper/formatTimer";
 import { SymbolAssignmentInterface } from "../../ts/interfaces";
 import FileIcon from "../Icons/FileIcon";
@@ -40,14 +41,15 @@ const ChatInput = ({
   const mediaRecorderRef = useRef<MediaRecorder | null>(null);
   const audioChunksRef = useRef<Blob[]>([]);
   const timerRef = useRef<any | null>(null);
-  const inputRef = useRef<any>(null);
+  const textareaRef = useRef<any>(null);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
   const [loading, setLoading] = useState(false);
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const newMessage = e.target.value;
-    console.log("Input", newMessage);
+  const TEXTAREA_MAX_HEIGHT = 150;
+  const TEXTAREA_INITIAL_HEIGHT = 41.6;
 
+  const handleInputChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    const newMessage = e.target.value;
     if (messageToEdit)
       setMessageToEdit((pre) => {
         if (!pre) return undefined;
@@ -61,6 +63,29 @@ const ChatInput = ({
     else setMessage(newMessage);
     const match = newMessage.match(/(\S+)$/);
     handleSymbol(match);
+    console.log(
+      "numberOfLineBreaks",
+      calculateTextareaLineCount(newMessage, textareaRef)
+    );
+    if (textareaRef.current) {
+      const newHeight = textareaRef.current.scrollHeight;
+      const newLineCount =
+        Math.ceil(textareaRef.current.scrollHeight / newHeight) - 1;
+      console.log(newLineCount);
+      if (newHeight > TEXTAREA_INITIAL_HEIGHT) {
+        if (newHeight > TEXTAREA_MAX_HEIGHT) {
+          textareaRef.current.style.height = `${TEXTAREA_MAX_HEIGHT}px`;
+          textareaRef.current.style.overflowY = "auto";
+        } else {
+          textareaRef.current.style.height = `${newHeight}px`;
+          textareaRef.current.style.overflowY = "hidden";
+        }
+      } else {
+        console.log("buy");
+        textareaRef.current.style.height = `${TEXTAREA_INITIAL_HEIGHT}px`;
+        textareaRef.current.style.overflowY = "hidden";
+      }
+    }
   };
 
   const handleSymbol = (match: RegExpMatchArray | null) => {
@@ -77,6 +102,7 @@ const ChatInput = ({
       }
     } else {
       setSelectedSymbol(null);
+      setFilterSymbol(null);
     }
   };
 
@@ -95,7 +121,8 @@ const ChatInput = ({
         return prev + value + " ";
       });
     setSelectedSymbol(null);
-    inputRef.current.focus();
+    setFilterSymbol(null);
+    textareaRef.current.focus();
   };
 
   const handleSendMessage = () => {
@@ -109,6 +136,10 @@ const ChatInput = ({
       setMessage("");
     }
     setSelectedSymbol(null);
+    setFilterSymbol(null);
+    if (textareaRef.current) {
+      textareaRef.current.style.height = `${TEXTAREA_INITIAL_HEIGHT}px`;
+    }
   };
 
   const handleStartRecording = async () => {
@@ -248,10 +279,9 @@ const ChatInput = ({
                 ✕
               </button>
             </div>
-            <input
-              type="text"
-              ref={inputRef}
-              className="w-full  bg-white flex-1 p-2 pl-4 border border-gray-300 outline-none rounded-bl-3xl  "
+            <textarea
+              ref={textareaRef}
+              className="w-full resize-none bg-white flex-1 p-2 pl-4 border border-gray-300 outline-none rounded-bl-3xl  "
               placeholder="Type a message..."
               value={messageToEdit.text}
               onChange={handleInputChange}
@@ -273,10 +303,10 @@ const ChatInput = ({
         </>
       ) : (
         <>
-          <div className="w-[90%] relative ">
+          <div className="w-[90%] h-10 relative ">
             <div
               onClick={handleFileClick}
-              className="cursor-pointer absolute right-4 top-[11px]"
+              className="cursor-pointer z-10 absolute right-4 top-[11px]"
             >
               <FileIcon />
             </div>
@@ -286,11 +316,10 @@ const ChatInput = ({
               style={{ display: "none" }}
               onChange={handleFileChange}
             />
-
-            <input
-              type="text"
-              ref={inputRef}
-              className="w-full  bg-white flex-1 p-2 pr-10 pl-4 border border-gray-300 outline-none rounded-tl-3xl rounded-tr-2xl rounded-bl-3xl  "
+            <textarea
+              ref={textareaRef}
+              className="w-full absolute bottom-0 resize-none bg-white flex-1 p-2 pr-10 pl-4 border border-gray-300 outline-none rounded-tl-3xl rounded-tr-2xl rounded-bl-3xl  "
+              style={{ height: TEXTAREA_INITIAL_HEIGHT }}
               placeholder="Type a message..."
               value={message}
               onChange={handleInputChange}
@@ -301,7 +330,7 @@ const ChatInput = ({
                 }
               }}
             />
-            <SpeechBubbleCornerIcon className="rotate-180 absolute -right-[11.4px] top-5" />
+            <SpeechBubbleCornerIcon className="rotate-180 absolute -right-[11.4px] top-[18.4px]" />
           </div>
           <button
             className="flex items-center justify-center cursor-pointer w-9 h-9 ml-2 p-2 bg-blue-500 text-white rounded-full hover:bg-blue-600 transition"
