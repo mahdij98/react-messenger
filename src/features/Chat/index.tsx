@@ -29,6 +29,7 @@ export interface ChatPropsInterface {
   onDeleteMessage: (id: string) => void;
   onEditMessage: (message: MessageEntity) => void;
   them?: ChatThemEntity;
+  messageBubbleBiggerSize?: boolean;
 }
 
 const Chat = ({
@@ -47,6 +48,7 @@ const Chat = ({
   isSendingDefultForNewMessage,
   isSendingDefultForEdited,
   backgroundImage,
+  messageBubbleBiggerSize,
   them = ChatThemEntity.Telegram,
 }: ChatPropsInterface) => {
   const {
@@ -110,6 +112,7 @@ const Chat = ({
                   if (message.isRightSided)
                     return (
                       <RightSide
+                        maxWidth={messageBubbleBiggerSize}
                         key={index}
                         media={media}
                         handleContextMenu={handleContextMenu}
@@ -123,6 +126,7 @@ const Chat = ({
 
                   return (
                     <LeftSide
+                      maxWidth={messageBubbleBiggerSize}
                       showUserProfile={showUserProfile}
                       key={index}
                       media={media}

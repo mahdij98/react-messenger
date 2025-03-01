@@ -10,10 +10,12 @@ const LeftSide = ({
   handleContextMenu,
   media,
   them,
+  maxWidth,
 }: {
   media: JSX.Element | null;
   message: MessageEntity;
   showUserProfile: boolean;
+  maxWidth?: boolean;
   them?: ChatThemEntity;
   handleContextMenu: (event: React.MouseEvent, message: MessageEntity) => void;
 }) => {
@@ -32,8 +34,12 @@ const LeftSide = ({
         transition={{ duration: 0.3 }}
         onContextMenu={(event: any) => handleContextMenu(event, message)}
         className={`relative ${
-          media ? "w-3/4" : "w-fit max-w-3/4"
-        } flex flex-col gap-1 md:max-w-[400px]  p-2 pt-5 rounded-lg ${
+          media
+            ? "w-3/4"
+            : maxWidth
+            ? `max-w-[400px]  w-fit`
+            : "max-w-[75%]  w-fit"
+        } flex flex-col gap-1 break-words  p-2 pt-5 rounded-lg ${
           them === ChatThemEntity.Simple
             ? "bg-[#f8fbff]"
             : them === ChatThemEntity.Telegram

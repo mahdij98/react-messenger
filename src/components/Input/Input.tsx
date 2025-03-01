@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { MessageEntity } from "../../domain/MessageEntity";
 import calculateTextareaLineCount from "../../helper/calculateTextareaLineCount";
 import formatTimer from "../../helper/formatTimer";
@@ -47,6 +47,13 @@ const ChatInput = ({
 
   const TEXTAREA_MAX_HEIGHT = 150;
   const TEXTAREA_INITIAL_HEIGHT = 41.6;
+
+  useEffect(() => {
+    const divElement = document.getElementById("static-display");
+    if (divElement && !divElement.textContent && messageToEdit?.text) {
+      divElement.textContent = messageToEdit?.text;
+    }
+  }, [messageToEdit?.text]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     const newMessage = e.target.value;
@@ -267,11 +274,12 @@ const ChatInput = ({
         </div>
       ) : messageToEdit ? (
         <>
-          <div className="w-[90%] relative ">
-            <div className="flex justify-between items-center px-2 h-12 bottom-10 absolute w-full border-t border-x border-gray-300 bg-white rounded-t-lg ">
-              <span className="text-gray-400 whitespace-nowrap truncate">
-                {messageToEdit.text}
-              </span>
+          <div className="w-[90%] relative h-10">
+            <div className=" h-12 absolute bottom-10  w-full flex justify-between items-center px-2 border-t border-x border-gray-300 bg-white rounded-t-lg ">
+              <span
+                id="static-display"
+                className="text-gray-400 whitespace-nowrap truncate"
+              ></span>
               <button
                 className="text-gray-500 hover:text-gray-700 -mt-4"
                 onClick={() => setMessageToEdit(undefined)}
@@ -280,8 +288,7 @@ const ChatInput = ({
               </button>
             </div>
             <textarea
-              ref={textareaRef}
-              className="w-full resize-none bg-white flex-1 p-2 pl-4 border border-gray-300 outline-none rounded-bl-3xl  "
+              className="w-full resize-none h-[41.6px] absolute bottom-0 bg-white flex-1 p-2 pl-4 border border-gray-300 outline-none rounded-bl-3xl  "
               placeholder="Type a message..."
               value={messageToEdit.text}
               onChange={handleInputChange}
@@ -292,7 +299,7 @@ const ChatInput = ({
                 }
               }}
             />
-            <SpeechBubbleCornerIcon className="rotate-180 absolute -right-[11.4px] top-5" />
+            <SpeechBubbleCornerIcon className="rotate-180 absolute -right-[11.4px] top-[18.4px]" />
           </div>
           <button
             className="flex items-center justify-center cursor-pointer w-9 h-9 ml-2 p-2 bg-blue-500 text-white rounded-full hover:bg-blue-600 transition"

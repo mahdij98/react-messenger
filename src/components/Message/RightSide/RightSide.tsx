@@ -11,22 +11,25 @@ const RightSide = ({
   media,
   message,
   them,
+  maxWidth,
 }: {
   media: JSX.Element | null;
   message: MessageEntity;
   them?: ChatThemEntity;
+  maxWidth?: boolean;
   handleContextMenu: (event: React.MouseEvent, message: MessageEntity) => void;
 }) => {
   return (
     <motion.div
+      style={{ background: "red !important" }}
       initial={{ opacity: 0, y: 50 }}
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: 50 }}
       transition={{ duration: 0.3 }}
       onContextMenu={(event: any) => handleContextMenu(event, message)}
       className={`relative self-end ${
-        media ? "w-3/4" : "max-w-3/4"
-      } flex flex-col justify-center md:max-w-[400px]  p-2 rounded-lg ${
+        media ? "w-3/4" : maxWidth ? ` max-w-[400px]` : "max-w-[75%]"
+      } flex flex-col justify-center break-words p-2 rounded-lg ${
         them === ChatThemEntity.Telegram
           ? " bg-green-200"
           : ChatThemEntity.Simple
