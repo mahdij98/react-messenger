@@ -33,7 +33,7 @@ const Media = ({
     <div className="relative w-full">
       {uploadProgres ? (
         <CircleProgress
-          progress={uploadProgres?.progres ?? 0}
+          progress={uploadProgres?.progres}
           size={50}
           strokeWidth={4}
           showCancel
