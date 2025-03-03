@@ -10,7 +10,11 @@ import Spinner from "../../components/Spinner/Spinner";
 import { MessageEntity } from "../../domain/MessageEntity";
 import "../../index.css";
 import { AttachmentTypeEnum, ChatThemEntity } from "../../ts/enum";
-import { SymbolAssignmentInterface, UserInterface } from "../../ts/interfaces";
+import {
+  ChatUploadProgresInterface,
+  SymbolAssignmentInterface,
+  UserInterface,
+} from "../../ts/interfaces";
 import Logic from "./logic";
 export interface ChatPropsInterface {
   messages: MessageEntity[];
@@ -30,6 +34,8 @@ export interface ChatPropsInterface {
   onEditMessage: (message: MessageEntity) => void;
   them?: ChatThemEntity;
   messageBubbleBiggerSize?: boolean;
+  uploadProgress?: ChatUploadProgresInterface[];
+  onUploadCancellationToken?: (id: string) => void;
 }
 
 const Chat = ({
@@ -49,6 +55,8 @@ const Chat = ({
   isSendingDefultForEdited,
   backgroundImage,
   messageBubbleBiggerSize,
+  uploadProgress,
+  onUploadCancellationToken,
   them = ChatThemEntity.Telegram,
 }: ChatPropsInterface) => {
   const {
@@ -106,6 +114,15 @@ const Chat = ({
                       attachmentUrl={message.attachmentUrl}
                       attachmentType={message?.attachmentType}
                       attachmentFormat={message?.attachmentFormat}
+                      uploadProgres={uploadProgress?.find(
+                        (progressEvent) =>
+                          progressEvent.messageId === message.id
+                      )}
+                      cancellationToken={() =>
+                        onUploadCancellationToken
+                          ? onUploadCancellationToken(message.id)
+                          : null
+                      }
                     />
                   ) : null;
 

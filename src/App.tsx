@@ -116,7 +116,7 @@ function App() {
       attachmentType: AttachmentTypeEnum.Voice,
     }),
     new MessageEntity({
-      id: "77",
+      id: "772",
       text: "and this is your response",
       user: { id: "7", profileImageUrl: ProfileIcon6, fullName: "Janson" },
       createdDate: "2025-02-14T08:09:22.311+00:00",
@@ -124,7 +124,7 @@ function App() {
       attachmentType: AttachmentTypeEnum.Voice,
     }),
     new MessageEntity({
-      id: "88",
+      id: "82228",
       text: "this is cool",
       user: { id: "7", profileImageUrl: ProfileIcon6, fullName: "Janson" },
       createdDate: "2025-02-14T08:09:22.311+00:00",
@@ -132,7 +132,7 @@ function App() {
       attachmentType: AttachmentTypeEnum.Image,
     }),
     new MessageEntity({
-      id: "99",
+      id: "9929",
       text: "",
       isRightSided: true,
       attachmentUrl: ProfileIcon1,
@@ -151,7 +151,7 @@ function App() {
       createdDate: "2025-02-14T08:09:22.311+00:00",
     }),
     new MessageEntity({
-      id: "00",
+      id: "12344",
       text: "😳",
       attachmentUrl: ProfileIcon1,
       attachmentType: AttachmentTypeEnum.File,
@@ -215,6 +215,28 @@ function App() {
 
   const [messages, setMessages] = useState(oldMessages);
   const [pagNumber, setPageNumber] = useState(1);
+  const [UploadProgresList] = useState([
+    {
+      messageId: "12344",
+      progres: 60,
+      progresEnd: 100,
+    },
+    {
+      messageId: "9929",
+      progres: 20,
+      progresEnd: 100,
+    },
+    {
+      messageId: "82228",
+      progres: 87,
+      progresEnd: 100,
+    },
+    {
+      messageId: "772",
+      progres: 23,
+      progresEnd: 100,
+    },
+  ]);
 
   const handleDeleteMessage = (messageId: string) => {
     setMessages((prevMessages) =>
@@ -257,6 +279,7 @@ function App() {
       onDeleteMessage={handleDeleteMessage}
       onEditMessage={(editedMessage) => {}}
       onMessageSent={(newMessage) => {}}
+      uploadProgress={UploadProgresList}
       className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-lg bg-gray-100 border "
     />
   );

@@ -4,4 +4,7 @@ export type { SymbolItemInterface } from "./src/components/Symbols/SymbolsListCo
 export { MessageEntity } from "./src/domain/MessageEntity";
 export { default as Chat } from "./src/features/Chat";
 export { AttachmentTypeEnum, ChatThemEntity } from "./src/ts/enum";
-export type { SymbolAssignmentInterface } from "./src/ts/interfaces";
+export type {
+  ChatUploadProgresInterface,
+  SymbolAssignmentInterface,
+} from "./src/ts/interfaces";

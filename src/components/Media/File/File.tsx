@@ -1,5 +1,7 @@
 import React from "react";
 import { ChatThemEntity } from "../../../ts/enum";
+import { ChatUploadProgresInterface } from "../../../ts/interfaces";
+import CircleProgress from "../../CircleProgress/CircleProgress";
 
 interface FilePreviewProps {
   format?: string;
@@ -7,6 +9,8 @@ interface FilePreviewProps {
   fileSize: number; // in bytes
   src: string; // Download URL
   them?: ChatThemEntity;
+  uploadProgres?: ChatUploadProgresInterface;
+  onCancelClick?: () => void;
 }
 
 const FilePreview: React.FC<FilePreviewProps> = ({
@@ -15,6 +19,8 @@ const FilePreview: React.FC<FilePreviewProps> = ({
   format,
   src,
   them,
+  uploadProgres,
+  onCancelClick,
 }) => {
   const getFileIcon = () => {
     const icons: { [key: string]: JSX.Element } = {
@@ -56,17 +62,34 @@ const FilePreview: React.FC<FilePreviewProps> = ({
 
   return (
     <div className="flex items-center rounded-lg">
-      <div
-        className={` border ${
-          them === ChatThemEntity.Simple
-            ? " border-white "
-            : them === ChatThemEntity.Telegram
-            ? " border-green-900"
-            : ""
-        } w-14 h-14 mr-3 flex items-center justify-center relative  rounded-md p-3`}
-      >
-        {getFileIcon()}
-      </div>
+      {uploadProgres ? (
+        <div
+          className={`  w-14 h-14 mr-3 flex items-center justify-center relative  rounded-md p-3`}
+        >
+          <CircleProgress
+            progress={uploadProgres?.progres ?? 0}
+            size={50}
+            strokeWidth={4}
+            showCancel
+            onCancelClick={onCancelClick}
+            circleColor="#ddd"
+            progressColor="#4caf50"
+          />
+        </div>
+      ) : (
+        <div
+          className={` border ${
+            them === ChatThemEntity.Simple
+              ? " border-white "
+              : them === ChatThemEntity.Telegram
+              ? " border-green-900"
+              : ""
+          } w-14 h-14 mr-3 flex items-center justify-center relative  rounded-md p-3`}
+        >
+          {getFileIcon()}
+        </div>
+      )}
+
       <div className="flex flex-col flex-grow">
         <a
           href={src}

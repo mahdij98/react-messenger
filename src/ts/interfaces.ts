@@ -19,3 +19,12 @@ export interface SymbolAssignmentInterface<T = any> {
   pagNumber: number;
   updatePageNumber: (newPage: number) => void;
 }
+
+export interface ChatUploadProgresInterface {
+  messageId: string;
+  /**
+   * progress shold be number between 0 and progresEnd
+   */
+  progres: number;
+  progresEnd: number;
+}
