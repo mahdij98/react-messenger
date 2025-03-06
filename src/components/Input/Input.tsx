@@ -171,7 +171,10 @@ const ChatInput = ({
     mediaRecorder.onstop = () => {
       clearInterval(timerRef.current!);
       const audioBlob = new Blob(audioChunksRef.current, { type: "audio/mp3" });
-      onSendVoice(audioBlob);
+      const audioFile = new File([audioBlob], "recording.mp3", {
+        type: "audio/mp3",
+      });
+      onSendVoice(audioFile);
       setIsRecording(false);
     };
 

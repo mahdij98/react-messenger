@@ -5,12 +5,13 @@ import ProfileIcon1 from "./assets/12.png";
 import ProfileIcon6 from "./assets/2.png";
 import ProfileIcon5 from "./assets/3.png";
 import ProfileIcon2 from "./assets/4.png";
+import ProfileIcon12 from "./assets/chat-bg-1.jpg";
 import SymbolsListComponent, {
   SymbolItemInterface,
 } from "./components/Symbols/SymbolsListComponent";
 import { MessageEntity } from "./domain/MessageEntity";
 import Chat from "./features/Chat";
-import { AttachmentTypeEnum, ChatThemEntity } from "./ts/enum";
+import { AttachmentTypeEnum } from "./ts/enum";
 import { UserInterface } from "./ts/interfaces";
 
 function App() {
@@ -247,8 +248,7 @@ function App() {
   return (
     <Chat
       messages={messages}
-      backgroundImage={ProfileIcon1}
-      them={ChatThemEntity.Simple}
+      backgroundImage={ProfileIcon12}
       isSendingDefultForNewMessage
       isSendingDefultForEdited
       dynamicSymbolAssignments={[
