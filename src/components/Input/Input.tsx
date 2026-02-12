@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { MessageEntity } from "../../domain/MessageEntity";
 import formatTimer from "../../helper/formatTimer";
-import { normalizeMessage } from "../../helper/normalizeMessage ";
+import { normalizeMessage } from "../../helper/normalizeMessage";
 import { SymbolAssignmentInterface } from "../../ts/interfaces";
 import FileIcon from "../Icons/FileIcon";
 import MicIcon from "../Icons/MicIcon";
