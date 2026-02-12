@@ -9,6 +9,8 @@ export class MessageEntity {
   attachmentBlob: Blob | undefined;
   attachmentType: AttachmentTypeEnum | undefined = undefined;
   attachmentFormat: string | undefined = "";
+  attachmentName?: string | undefined = "";
+  attachmentSize?: number | undefined = 0;
   user: UserInterface = { id: "" };
   isRightSided: boolean | undefined = false;
   symbols:
@@ -30,6 +32,8 @@ export class MessageEntity {
     attachmentType,
     attachmentFormat,
     attachmentBlob,
+    attachmentName,
+    attachmentSize,
     user,
     isRightSided,
     symbols,
@@ -42,6 +46,8 @@ export class MessageEntity {
     attachmentUrl?: string;
     attachmentType?: AttachmentTypeEnum;
     attachmentFormat?: string;
+    attachmentName?: string;
+    attachmentSize?: number;
     attachmentBlob?: Blob;
     user: UserInterface;
     isRightSided?: boolean;
@@ -64,6 +70,8 @@ export class MessageEntity {
     this.attachmentType = attachmentType;
     this.attachmentFormat = attachmentFormat;
     this.attachmentBlob = attachmentBlob;
+    this.attachmentName = attachmentName;
+    this.attachmentSize = attachmentSize;
     this.user = user;
     this.isRightSided = isRightSided;
     this.symbols = symbols;

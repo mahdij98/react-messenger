@@ -29,7 +29,12 @@ export interface ChatPropsInterface {
   style?: React.CSSProperties;
   updateMessages: (messages: MessageEntity[]) => void;
   onMessageSent: (message: MessageEntity) => void;
-  dynamicSymbolAssignments?: SymbolAssignmentInterface<any>[];
+  dynamicSymbolAssignments?: SymbolAssignmentInterface<{
+    name: string;
+    id: string;
+  }>[];
+  onDynamicSymbolListSet?: (value: string, id: string, symbol?: string) => void;
+  onDynamicSymbolListDelete?: (id: string, symbol?: string) => void;
   onDeleteMessage: (id: string) => void;
   onEditMessage: (message: MessageEntity) => void;
   them?: ChatThemEntity;
@@ -51,6 +56,8 @@ const Chat = ({
   onDeleteMessage,
   onEditMessage,
   dynamicSymbolAssignments,
+  onDynamicSymbolListSet,
+  onDynamicSymbolListDelete,
   isSendingDefultForNewMessage,
   isSendingDefultForEdited,
   backgroundImage,
@@ -114,9 +121,11 @@ const Chat = ({
                       attachmentUrl={message.attachmentUrl}
                       attachmentType={message?.attachmentType}
                       attachmentFormat={message?.attachmentFormat}
+                      attachmentName={message?.attachmentName}
+                      attachmentSize={message?.attachmentSize}
                       uploadProgres={uploadProgress?.find(
                         (progressEvent) =>
-                          progressEvent.messageId === message.id
+                          progressEvent.messageId === message.id,
                       )}
                       cancellationToken={() =>
                         onUploadCancellationToken
@@ -183,6 +192,8 @@ const Chat = ({
         onImageSend={(file) => handleSendFile(file, AttachmentTypeEnum.Image)}
         onVideoSend={(file) => handleSendFile(file, AttachmentTypeEnum.Video)}
         dynamicSymbolAssignments={dynamicSymbolAssignments}
+        onDynamicSymbolListSet={onDynamicSymbolListSet}
+        onDynamicSymbolListDelete={onDynamicSymbolListDelete}
         messageToEdit={messageToEdit}
         setMessageToEdit={setMessageToEdit}
         onEditMessage={handleEditMessage}

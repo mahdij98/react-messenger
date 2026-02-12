@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ProfileIcon3 from "./assets/10.png";
 import ProfileIcon4 from "./assets/11.png";
 import ProfileIcon1 from "./assets/12.png";
@@ -106,6 +106,7 @@ function App() {
       createdDate: "2025-02-14T08:09:22.311+00:00",
       attachmentUrl: "//samplelib.com/lib/preview/mp3/sample-9s.mp3",
       attachmentType: AttachmentTypeEnum.Voice,
+      attachmentName: "voice-message",
     }),
     new MessageEntity({
       id: "66",
@@ -123,6 +124,7 @@ function App() {
       createdDate: "2025-02-14T08:09:22.311+00:00",
       attachmentUrl: "//samplelib.com/lib/preview/mp3/sample-12s.mp3",
       attachmentType: AttachmentTypeEnum.Voice,
+      attachmentName: "voice-message2",
     }),
     new MessageEntity({
       id: "82228",
@@ -148,6 +150,8 @@ function App() {
       attachmentUrl: ProfileIcon1,
       attachmentType: AttachmentTypeEnum.File,
       attachmentFormat: "jpg",
+      attachmentName: "Dcmi06000 - sw2",
+      attachmentSize: 3243243002,
       user: { id: "4", profileImageUrl: ProfileIcon3, fullName: "Lily" },
       createdDate: "2025-02-14T08:09:22.311+00:00",
     }),
@@ -157,6 +161,8 @@ function App() {
       attachmentUrl: ProfileIcon1,
       attachmentType: AttachmentTypeEnum.File,
       attachmentFormat: "png",
+      attachmentName: "last year 2020",
+      attachmentSize: 40000,
       user: { id: "4", profileImageUrl: ProfileIcon3, fullName: "Lily" },
       createdDate: "2025-02-14T08:09:22.311+00:00",
     }),
@@ -180,42 +186,48 @@ function App() {
   };
 
   const taskLists: SymbolItemInterface[] = [
-    { name: "task1", id: "111" },
-    { name: "task1", id: "111" },
-    { name: "task2", id: "2222" },
-    { name: "task2", id: "2222" },
-    { name: "task2", id: "2222" },
-    { name: "task2", id: "2222" },
-    { name: "task2", id: "2222" },
-    { name: "task2", id: "2222" },
-    { name: "task2", id: "2222" },
-    { name: "task2", id: "2222" },
+    { name: "Complete project report", id: "111" },
+    {
+      name: "Prepare presentation slides Attend team meeting Attend team meeting",
+      id: "222",
+    },
+    { name: "Attend team meeting", id: "333" },
+    { name: "Review pull requests", id: "444" },
+    { name: "Update documentation", id: "555" },
+    { name: "Fix bugs in the application", id: "666" },
+    { name: "Conduct user testing", id: "777" },
+    { name: "Plan next sprint", id: "888" },
+    { name: "Refactor codebase", id: "999" },
+    { name: "Deploy to production", id: "1010" },
   ];
   const userLists: SymbolItemInterface[] = [
-    { name: "mahdi", id: "111" },
-    { name: "zare", id: "2222" },
-    { name: "zare", id: "2222" },
-    { name: "zare", id: "2222" },
-    { name: "zare", id: "2222" },
-    { name: "mahdi", id: "111" },
-    { name: "zare", id: "2222" },
-    { name: "zare", id: "2222" },
-    { name: "zare", id: "2222" },
-    { name: "zare", id: "2222" },
-    { name: "mahdi", id: "111" },
-    { name: "zare", id: "2222" },
-    { name: "zare", id: "2222" },
-    { name: "zare", id: "2222" },
-    { name: "zare", id: "2222" },
-    { name: "mahdi", id: "111" },
-    { name: "zare", id: "2222" },
-    { name: "zare", id: "2222" },
-    { name: "zare", id: "2222" },
-    { name: "zare", id: "2222" },
+    { name: "mahdi", id: "1" },
+    { name: "zare", id: "2" },
+    { name: "sara", id: "3" },
+    { name: "lily", id: "4" },
+    { name: "mike", id: "5" },
+    { name: "amelia", id: "6" },
+    { name: "janson", id: "7" },
+    { name: "john", id: "8" },
+    { name: "alice", id: "9" },
+    { name: "bob", id: "10" },
+    { name: "emma", id: "11" },
+    { name: "charlie", id: "12" },
+    { name: "diana", id: "13" },
+    { name: "edward", id: "14" },
+    { name: "fiona", id: "15" },
+    { name: "george", id: "16" },
+    { name: "hannah", id: "17" },
+    { name: "isaac", id: "18" },
+    { name: "julia", id: "19" },
+    { name: "kevin", id: "20" },
   ];
 
   const [messages, setMessages] = useState(oldMessages);
   const [pagNumber, setPageNumber] = useState(1);
+  const [dSymbolList, setDSymbolList] = useState<
+    { value: string; id: string; symbol?: string }[]
+  >([]);
   const [UploadProgresList] = useState([
     {
       messageId: "12344",
@@ -241,9 +253,13 @@ function App() {
 
   const handleDeleteMessage = (messageId: string) => {
     setMessages((prevMessages) =>
-      prevMessages.filter((msg) => msg.id !== messageId)
+      prevMessages.filter((msg) => msg.id !== messageId),
     );
   };
+
+  useEffect(() => {
+    console.log("dsymbolList", dSymbolList);
+  }, [dSymbolList]);
 
   return (
     <Chat
@@ -274,6 +290,21 @@ function App() {
           },
         },
       ]}
+      onDynamicSymbolListSet={(value, id, symbol) => {
+        setDSymbolList((pre) => [
+          ...pre,
+          { value: value, id: id, symbol: symbol },
+        ]);
+        console.log("add", id, symbol);
+      }}
+      onDynamicSymbolListDelete={(id, symbol) => {
+        console.log("delete", id, symbol);
+        setDSymbolList((prev) => {
+          return prev.filter(
+            (item) => !(item.id == id && item.symbol == symbol),
+          );
+        });
+      }}
       user={currentUser}
       updateMessages={setMessages}
       onDeleteMessage={handleDeleteMessage}

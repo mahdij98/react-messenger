@@ -57,7 +57,7 @@ const Logic = ({
 
   const handleContextMenu = (
     event: React.MouseEvent,
-    message: MessageEntity
+    message: MessageEntity,
   ) => {
     event.preventDefault();
 
@@ -96,7 +96,7 @@ const Logic = ({
           return editedMessage;
         }
         return message;
-      })
+      }),
     );
     onEditMessage(editedMessage);
   };
@@ -120,12 +120,17 @@ const Logic = ({
 
   const handleSendFile = (file: Blob, type: AttachmentTypeEnum) => {
     const fileUrl = URL.createObjectURL(file);
+    const attachmentName = file instanceof File ? file.name : "";
+    const attachmentFormat =
+      file instanceof File ? file.name.split(".").pop() : "";
     const newMessage = new MessageEntity({
       id: new Date().toString(),
       text: "",
       attachmentUrl: fileUrl,
       attachmentBlob: file,
       attachmentType: type,
+      attachmentFormat,
+      attachmentName,
       user,
       isRightSided: true,
       createdDate: new Date().toString(),

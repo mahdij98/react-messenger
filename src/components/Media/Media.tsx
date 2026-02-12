@@ -8,6 +8,8 @@ interface MediaProps {
   attachmentUrl: string;
   attachmentType?: AttachmentTypeEnum;
   attachmentFormat?: string;
+  attachmentName?: string;
+  attachmentSize?: number;
   them?: ChatThemEntity;
   uploadProgres?: ChatUploadProgresInterface;
   cancellationToken?: () => void;
@@ -16,11 +18,16 @@ const Media = ({
   attachmentUrl,
   attachmentType,
   attachmentFormat,
+  attachmentName,
+  attachmentSize,
   them,
   uploadProgres,
   cancellationToken,
 }: MediaProps) => {
+  const fileName = attachmentName || "File";
+  const fileSize = attachmentSize || 0;
   if (!attachmentUrl) return null;
+
   return attachmentType === AttachmentTypeEnum.Voice ? (
     <div className="w-full">
       <VoicePlayer
@@ -53,8 +60,8 @@ const Media = ({
   ) : attachmentType === AttachmentTypeEnum.File ? (
     <div className="w-full mt-1">
       <FilePreview
-        fileName="productivity"
-        fileSize={23000}
+        fileName={fileName}
+        fileSize={fileSize}
         format={attachmentFormat ?? "UN"}
         src={attachmentUrl}
         uploadProgres={uploadProgres}
@@ -64,8 +71,8 @@ const Media = ({
   ) : attachmentType === AttachmentTypeEnum.Video ? (
     <div className="w-full mt-1">
       <FilePreview
-        fileName="productivity"
-        fileSize={23000}
+        fileName={fileName}
+        fileSize={fileSize}
         format={attachmentFormat ?? "UN"}
         src={attachmentUrl}
         uploadProgres={uploadProgres}

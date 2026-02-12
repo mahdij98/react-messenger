@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { MessageEntity } from "../../domain/MessageEntity";
-import calculateTextareaLineCount from "../../helper/calculateTextareaLineCount";
 import formatTimer from "../../helper/formatTimer";
+import { normalizeMessage } from "../../helper/normalizeMessage ";
 import { SymbolAssignmentInterface } from "../../ts/interfaces";
 import FileIcon from "../Icons/FileIcon";
 import MicIcon from "../Icons/MicIcon";
@@ -16,6 +16,8 @@ const ChatInput = ({
   onVideoSend,
   onFileSend,
   dynamicSymbolAssignments,
+  onDynamicSymbolListSet,
+  onDynamicSymbolListDelete,
   messageToEdit,
   setMessageToEdit,
 }: {
@@ -26,6 +28,8 @@ const ChatInput = ({
   onImageSend: (blob: Blob) => void;
   onVideoSend: (blob: Blob) => void;
   dynamicSymbolAssignments?: SymbolAssignmentInterface<any>[];
+  onDynamicSymbolListSet?: (value: string, id: string, symbol?: string) => void;
+  onDynamicSymbolListDelete?: (id: string, symbol?: string) => void;
   messageToEdit?: MessageEntity;
   setMessageToEdit: React.Dispatch<
     React.SetStateAction<MessageEntity | undefined>
@@ -44,6 +48,9 @@ const ChatInput = ({
   const textareaRef = useRef<any>(null);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
   const [loading, setLoading] = useState(false);
+  const [dynamicSymbolListUpdate, setDynamicSymbolListUpdate] = useState<
+    string[]
+  >([]);
 
   const TEXTAREA_MAX_HEIGHT = 150;
   const TEXTAREA_INITIAL_HEIGHT = 41.6;
@@ -55,8 +62,7 @@ const ChatInput = ({
     }
   }, [messageToEdit?.text]);
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    const newMessage = e.target.value;
+  const handleInputChange = (newMessage: string) => {
     if (messageToEdit)
       setMessageToEdit((pre) => {
         if (!pre) return undefined;
@@ -68,17 +74,30 @@ const ChatInput = ({
         return newEntity;
       });
     else setMessage(newMessage);
+
     const match = newMessage.match(/(\S+)$/);
     handleSymbol(match);
-    console.log(
-      "numberOfLineBreaks",
-      calculateTextareaLineCount(newMessage, textareaRef)
-    );
+
+    if (dynamicSymbolListUpdate.length > 0) {
+      const spanIdMatches = Array.from(
+        newMessage.matchAll(/<span[^>]*id=["']([^"']+)["'][^>]*>/g),
+      ).map((m) => m[1]);
+      setDynamicSymbolListUpdate((prev) => {
+        const removedIds = prev.filter(
+          (symbolPlusId) => !spanIdMatches.includes(symbolPlusId),
+        );
+        removedIds.forEach((symbolPlusId) => {
+          const symbol = symbolPlusId.charAt(0);
+          const id = symbolPlusId.slice(1);
+          onDynamicSymbolListDelete?.(id, symbol);
+        });
+        return spanIdMatches;
+      });
+    }
     if (textareaRef.current) {
       const newHeight = textareaRef.current.scrollHeight;
       const newLineCount =
         Math.ceil(textareaRef.current.scrollHeight / newHeight) - 1;
-      console.log(newLineCount);
       if (newHeight > TEXTAREA_INITIAL_HEIGHT) {
         if (newHeight > TEXTAREA_MAX_HEIGHT) {
           textareaRef.current.style.height = `${TEXTAREA_MAX_HEIGHT}px`;
@@ -88,64 +107,34 @@ const ChatInput = ({
           textareaRef.current.style.overflowY = "hidden";
         }
       } else {
-        console.log("buy");
         textareaRef.current.style.height = `${TEXTAREA_INITIAL_HEIGHT}px`;
         textareaRef.current.style.overflowY = "hidden";
       }
     }
   };
 
-  const handleSymbol = (match: RegExpMatchArray | null) => {
-    if (match) {
-      const symbol = match[0];
-      if (selectedSymbol) {
-        const symbolValue = match[0].split(selectedSymbol)[1];
-        setFilterSymbol(symbolValue);
-      }
-      if (
-        dynamicSymbolAssignments?.some((config) => config.symbol === symbol)
-      ) {
-        setSelectedSymbol(symbol);
-      }
-    } else {
-      setSelectedSymbol(null);
-      setFilterSymbol(null);
-    }
-  };
-
-  const handleSymbolItemClick = (id: string, value: string) => {
-    if (messageToEdit)
-      setMessageToEdit((pre) => {
-        if (!pre) return undefined;
-        const newEntity = new MessageEntity({
-          ...pre,
-          text: pre.text + value + " ",
-        });
-        return newEntity;
-      });
-    else
-      setMessage((prev) => {
-        return prev + value + " ";
-      });
-    setSelectedSymbol(null);
-    setFilterSymbol(null);
-    textareaRef.current.focus();
-  };
-
   const handleSendMessage = () => {
     if (messageToEdit) {
-      if (messageToEdit.text.trim() === "") return;
-      onEditMessage(messageToEdit);
+      const cleanText = normalizeMessage(messageToEdit.text);
+      if (cleanText.trim() === "") return;
+      onEditMessage({
+        ...messageToEdit,
+        text: cleanText,
+      });
       setMessageToEdit(undefined);
     } else {
-      if (message.trim() === "") return;
-      onSendMessage(message);
+      const cleanMessage = normalizeMessage(message);
+      if (cleanMessage.trim() === "") return;
+      onSendMessage(cleanMessage);
       setMessage("");
     }
+
     setSelectedSymbol(null);
     setFilterSymbol(null);
+
     if (textareaRef.current) {
       textareaRef.current.style.height = `${TEXTAREA_INITIAL_HEIGHT}px`;
+      textareaRef.current.innerHTML = "";
     }
   };
 
@@ -185,6 +174,66 @@ const ChatInput = ({
     mediaRecorderRef.current?.stop();
   };
 
+  const handleSymbol = (match: RegExpMatchArray | null) => {
+    if (match) {
+      const symbol = match[0];
+      if (selectedSymbol) {
+        const symbolValue = match[0].split(selectedSymbol)[1];
+        setFilterSymbol(symbolValue);
+      }
+      if (
+        dynamicSymbolAssignments?.some((config) => config.symbol === symbol)
+      ) {
+        setSelectedSymbol(symbol);
+      }
+    } else {
+      setSelectedSymbol(null);
+      setFilterSymbol(null);
+    }
+  };
+
+  const handleSymbolItemClick = (
+    id: string,
+    value: string,
+    symbol?: string,
+  ) => {
+    if (!textareaRef.current) return;
+
+    setDynamicSymbolListUpdate((pre) => [...pre, `${symbol + id}`]);
+    let currentContent = textareaRef.current?.innerHTML || "";
+
+    const lastSymbolMatch = currentContent.match(/(\S+)$/);
+    if (lastSymbolMatch) {
+      const lastSymbol = lastSymbolMatch[0];
+      currentContent = currentContent.slice(0, -lastSymbol.length);
+    }
+
+    const spanHtml = `<span id="${symbol + id}" contentEditable="false" class="inline-flex items-center  gap-1 px-2 pb-1 text-sm font-medium text-white bg-blue-500 rounded-full pointer-events-none select-none truncate max-w-[250px]">${symbol + value}</span>&nbsp;`;
+
+    textareaRef.current.innerHTML = currentContent + spanHtml;
+
+    const textNode = document.createTextNode("");
+    textareaRef.current.appendChild(textNode);
+
+    const selection = window.getSelection();
+    const range = document.createRange();
+    range.setStart(textNode, 0);
+    range.collapse(true);
+    selection?.removeAllRanges();
+    selection?.addRange(range);
+
+    const newContent = textareaRef.current.innerHTML;
+    handleInputChange(newContent);
+
+    onDynamicSymbolListSet ? onDynamicSymbolListSet(value, id, symbol) : null;
+    setSelectedSymbol(null);
+    setFilterSymbol(null);
+
+    setTimeout(() => {
+      textareaRef.current?.focus();
+    }, 0);
+  };
+
   const handleSymbolPagination = (event: React.UIEvent<HTMLDivElement>) => {
     const { scrollTop, scrollHeight, clientHeight } = event.currentTarget;
 
@@ -192,7 +241,7 @@ const ChatInput = ({
       const isAtBottom = scrollTop + clientHeight >= scrollHeight - 1;
       if (isAtBottom) {
         const config = dynamicSymbolAssignments?.find(
-          (assignment) => assignment.symbol === selectedSymbol
+          (assignment) => assignment.symbol === selectedSymbol,
         );
 
         if (config && config?.updatePageNumber) {
@@ -294,7 +343,7 @@ const ChatInput = ({
               className="w-full resize-none h-[41.6px] absolute bottom-0 bg-white flex-1 p-2 pl-4 border border-gray-300 outline-none rounded-bl-3xl  "
               placeholder="Type a message..."
               value={messageToEdit.text}
-              onChange={handleInputChange}
+              onChange={(e) => handleInputChange(e.target.value)}
               onKeyDown={(e) => {
                 if (e.key === "Enter" && !e.shiftKey) {
                   e.preventDefault();
@@ -326,13 +375,13 @@ const ChatInput = ({
               style={{ display: "none" }}
               onChange={handleFileChange}
             />
-            <textarea
+            <div
               ref={textareaRef}
-              className="w-full absolute bottom-0 resize-none bg-white flex-1 p-2 pr-10 pl-4 border border-gray-300 outline-none rounded-tl-3xl rounded-tr-2xl rounded-bl-3xl  "
+              contentEditable
+              suppressContentEditableWarning
+              className="w-full absolute bottom-0 resize-none bg-white flex-1 p-2 pr-10 pl-4 border border-gray-300 outline-none rounded-tl-3xl rounded-tr-2xl rounded-bl-3xl overflow-hidden"
               style={{ height: TEXTAREA_INITIAL_HEIGHT }}
-              placeholder="Type a message..."
-              value={message}
-              onChange={handleInputChange}
+              onInput={(e) => handleInputChange(e.currentTarget.innerHTML)}
               onKeyDown={(e) => {
                 if (e.key === "Enter" && !e.shiftKey) {
                   e.preventDefault();
@@ -385,7 +434,7 @@ const ChatInput = ({
                             <Component
                               listsProps={list}
                               onClick={(id, value) =>
-                                handleSymbolItemClick(id, value)
+                                handleSymbolItemClick(id, value, selectedSymbol)
                               }
                             />
                           </div>
@@ -399,7 +448,7 @@ const ChatInput = ({
                         <Component
                           listsProps={list}
                           onClick={(id, value) =>
-                            handleSymbolItemClick(id, value)
+                            handleSymbolItemClick(id, value, selectedSymbol)
                           }
                         />
                       </div>

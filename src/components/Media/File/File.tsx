@@ -55,9 +55,11 @@ const FilePreview: React.FC<FilePreviewProps> = ({
   };
 
   const formatFileSize = (size: number) => {
-    return size > 1024 * 1024
-      ? (size / (1024 * 1024)).toFixed(1) + " MB"
-      : (size / 1024).toFixed(1) + " KB";
+    return size > 1024 * 1024 * 1024
+      ? (size / (1024 * 1024 * 1024)).toFixed(2) + " GB"
+      : size > 1024 * 1024
+        ? (size / (1024 * 1024)).toFixed(1) + " MB"
+        : (size / 1024).toFixed(1) + " KB";
   };
 
   return (
@@ -82,8 +84,8 @@ const FilePreview: React.FC<FilePreviewProps> = ({
             them === ChatThemEntity.Simple
               ? " border-white "
               : them === ChatThemEntity.Telegram
-              ? " border-green-900"
-              : ""
+                ? " border-green-900"
+                : ""
           } w-14 h-14 mr-3 flex items-center justify-center relative  rounded-md p-3`}
         >
           {getFileIcon()}
@@ -98,9 +100,10 @@ const FilePreview: React.FC<FilePreviewProps> = ({
             them === ChatThemEntity.Simple
               ? "text-white"
               : them === ChatThemEntity.Telegram
-              ? "text-gray-900"
-              : ""
-          }  font-medium hover:underline`}
+                ? "text-gray-900"
+                : ""
+          } font-medium text-sm hover:underline truncate max-w-[100px]`}
+          title={fileName}
         >
           {fileName}
         </a>
@@ -109,8 +112,8 @@ const FilePreview: React.FC<FilePreviewProps> = ({
             them === ChatThemEntity.Simple
               ? "text-gray-800"
               : them === ChatThemEntity.Telegram
-              ? "text-gray-900"
-              : ""
+                ? "text-gray-900"
+                : ""
           }   text-sm`}
         >
           {formatFileSize(fileSize)}

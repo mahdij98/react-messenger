@@ -4,6 +4,12 @@ import { defineConfig } from "vite";
 import dts from "vite-plugin-dts";
 
 export default defineConfig({
+  server: {
+    port: 5273,
+  },
+  preview: {
+    port: 5273,
+  },
   build: {
     lib: {
       entry: path.resolve(__dirname, "index.ts"),

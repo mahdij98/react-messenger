@@ -87,7 +87,7 @@ const ContextMenu: React.FC<ContextMenuProps> = ({
         </motion.div>
       )}
     </AnimatePresence>,
-    portalContainer.current
+    portalContainer.current,
   );
 };
 

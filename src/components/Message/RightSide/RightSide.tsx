@@ -33,8 +33,8 @@ const RightSide = ({
         them === ChatThemEntity.Telegram
           ? " bg-green-200"
           : ChatThemEntity.Simple
-          ? " bg-[#4F46E5] text-white"
-          : ""
+            ? " bg-[#4F46E5] text-white"
+            : ""
       }`}
     >
       {media ? media : null}
@@ -53,8 +53,8 @@ const RightSide = ({
               them === ChatThemEntity.Telegram
                 ? " "
                 : ChatThemEntity.Simple
-                ? " [&>path]:fill-white"
-                : ""
+                  ? " [&>path]:fill-white"
+                  : ""
             }
           />
         )}
@@ -64,8 +64,8 @@ const RightSide = ({
               them === ChatThemEntity.Simple
                 ? "text-gray-200"
                 : them === ChatThemEntity.Telegram
-                ? "text-gray-600 "
-                : ""
+                  ? "text-gray-600 "
+                  : ""
             }`}
           >
             edited
@@ -79,8 +79,8 @@ const RightSide = ({
           them === ChatThemEntity.Telegram
             ? "[&>g>path]:fill-green-200"
             : ChatThemEntity.Simple
-            ? "[&>g>path]:fill-[#4F46E5]"
-            : ""
+              ? "[&>g>path]:fill-[#4F46E5]"
+              : ""
         } `}
       />
     </motion.div>

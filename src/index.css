@@ -31,6 +31,13 @@
   scrollbar-color: rgba(87, 87, 87, 0.5) transparent;
 }
 
+/* Placeholder for contentEditable div */
+[contenteditable]:empty::before {
+  content: attr(data-placeholder);
+  color: #d1d5db;
+  pointer-events: none;
+}
+
 .rows-wrapper .bubble-tail {
   position: absolute;
   bottom: -1px;

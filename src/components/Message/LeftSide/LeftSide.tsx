@@ -37,14 +37,14 @@ const LeftSide = ({
           media
             ? "w-3/4"
             : maxWidth
-            ? `max-w-[400px]  w-fit`
-            : "max-w-[75%]  w-fit"
+              ? `max-w-[400px]  w-fit`
+              : "max-w-[75%]  w-fit"
         } flex flex-col gap-1 break-words  p-2 pt-5 rounded-lg ${
           them === ChatThemEntity.Simple
             ? "bg-[#f8fbff]"
             : them === ChatThemEntity.Telegram
-            ? "bg-blue-200 "
-            : ""
+              ? "bg-blue-200 "
+              : ""
         } `}
       >
         <span
@@ -60,7 +60,7 @@ const LeftSide = ({
             : message.user?.fullName}
         </span>
         {media ? media : null}
-        <span>{message.text}</span>
+        <span dangerouslySetInnerHTML={{ __html: message.text }} />
         <div className="w-full flex gap-1 items-center justify-end">
           <span className="text-[10px]">
             {new Date(message.createdDate).toLocaleTimeString().split(":")[0] +
@@ -73,8 +73,8 @@ const LeftSide = ({
                 them === ChatThemEntity.Simple
                   ? "text-gray-700"
                   : them === ChatThemEntity.Telegram
-                  ? "text-gray-600  "
-                  : ""
+                    ? "text-gray-600  "
+                    : ""
               }`}
             >
               edited
@@ -89,8 +89,8 @@ const LeftSide = ({
             them === ChatThemEntity.Simple
               ? "[&>g>path]:fill-[#f8fbff]"
               : them === ChatThemEntity.Telegram
-              ? "[&>g>path]:fill-blue-200"
-              : ""
+                ? "[&>g>path]:fill-blue-200"
+                : ""
           } -rotate-180 scale-x-[-1] transition-discrete absolute -left-2 bottom-0 `}
         />
       </motion.div>
