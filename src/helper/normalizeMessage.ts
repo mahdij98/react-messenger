@@ -1,16 +1,17 @@
-export const normalizeMessage = (html: string) => {
-  const container = document.createElement("div");
+export const normalizeMessage = (html: string): string => {
+  const container: HTMLDivElement = document.createElement("div");
   container.innerHTML = html;
 
-  container.querySelectorAll("span").forEach((span) => {
-    const text =
-      span?.textContent &&
-      ""
-        .replace(/\u00A0/g, " ") // nbsp → space
-        .trim()
-        .replace(/\s+/g, "-"); // spaces → dash
+  const spans: NodeListOf<HTMLSpanElement> = container.querySelectorAll("span");
 
-    if (text) span.replaceWith(text);
+  spans.forEach((span: HTMLSpanElement) => {
+    const text: string =
+      span.textContent
+        ?.replace(/\u00A0/g, " ") // nbsp → space
+        .trim()
+        .replace(/\s+/g, "-") ?? "";
+
+    span.replaceWith(text);
   });
 
   return container.innerHTML.replace(/&nbsp;/g, " ");
