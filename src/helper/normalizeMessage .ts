@@ -3,7 +3,7 @@ export const normalizeMessage = (html: string) => {
   container.innerHTML = html;
 
   container.querySelectorAll("span").forEach((span) => {
-    const text = span.textContent
+    const text = span?.textContent
       .replace(/\u00A0/g, " ") // nbsp → space
       .trim()
       .replace(/\s+/g, "-"); // spaces → dash
