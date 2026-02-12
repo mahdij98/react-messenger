@@ -10,7 +10,7 @@ export const normalizeMessage = (html: string) => {
         .trim()
         .replace(/\s+/g, "-"); // spaces → dash
 
-    span.replaceWith(text);
+    if (text) span.replaceWith(text);
   });
 
   return container.innerHTML.replace(/&nbsp;/g, " ");
