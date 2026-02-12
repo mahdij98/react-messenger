@@ -21,7 +21,7 @@ const ChatInput = ({
   messageToEdit,
   setMessageToEdit,
 }: {
-  onSendMessage: (newMessage: string) => void;
+  onSendMessage: (newMessage: string, htmlContent?: string) => void;
   onEditMessage: (newMessageEntity: MessageEntity) => void;
   onSendVoice: (voiceBlobUrl: Blob) => void;
   onFileSend: (blob: Blob) => void;
@@ -119,14 +119,18 @@ const ChatInput = ({
       if (cleanText.trim() === "") return;
       onEditMessage({
         ...messageToEdit,
+        htmlContent: messageToEdit.text,
         text: cleanText,
       });
       setMessageToEdit(undefined);
     } else {
-      const cleanMessage = normalizeMessage(message);
-      if (cleanMessage.trim() === "") return;
-      onSendMessage(cleanMessage);
-      setMessage("");
+      setMessage((prevMessage) => {
+        const cleanMessage = normalizeMessage(prevMessage);
+        if (cleanMessage.trim() === "") return prevMessage;
+        console.log("htmlcontnent before", prevMessage);
+        onSendMessage(cleanMessage, prevMessage);
+        return "";
+      });
     }
 
     setSelectedSymbol(null);

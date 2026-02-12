@@ -75,10 +75,11 @@ const Logic = ({
     setContextMenu(null);
   };
 
-  const handleSendMessage = (text: string) => {
+  const handleSendMessage = (text: string, htmlContent?: string) => {
     const newMessage = new MessageEntity({
       id: new Date().toString(),
       text,
+      htmlContent,
       user,
       isRightSided: true,
       isSending: isSendingDefultForNewMessage,

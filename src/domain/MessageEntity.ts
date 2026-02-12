@@ -4,6 +4,7 @@ import { UserInterface } from "../ts/interfaces";
 export class MessageEntity {
   id: string = "0";
   text = "";
+  htmlContent?: string | undefined = "";
   createdDate: string = "";
   attachmentUrl: undefined | string = "";
   attachmentBlob: Blob | undefined;
@@ -27,6 +28,7 @@ export class MessageEntity {
   constructor({
     id,
     text,
+    htmlContent,
     createdDate,
     attachmentUrl,
     attachmentType,
@@ -42,6 +44,7 @@ export class MessageEntity {
   }: {
     id: string;
     text: string;
+    htmlContent?: string;
     createdDate: string;
     attachmentUrl?: string;
     attachmentType?: AttachmentTypeEnum;
@@ -65,6 +68,7 @@ export class MessageEntity {
   }) {
     this.id = id;
     this.text = text;
+    this.htmlContent = htmlContent;
     this.createdDate = createdDate;
     this.attachmentUrl = attachmentUrl;
     this.attachmentType = attachmentType;

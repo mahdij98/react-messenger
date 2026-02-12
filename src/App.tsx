@@ -306,10 +306,14 @@ function App() {
         });
       }}
       user={currentUser}
-      updateMessages={setMessages}
+      updateMessages={(msg) => {
+        setMessages(msg);
+      }}
       onDeleteMessage={handleDeleteMessage}
       onEditMessage={(editedMessage) => {}}
-      onMessageSent={(newMessage) => {}}
+      onMessageSent={(newMessage) => {
+        console.log("new message", newMessage);
+      }}
       uploadProgress={UploadProgresList}
       className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-lg bg-gray-100 border "
     />
