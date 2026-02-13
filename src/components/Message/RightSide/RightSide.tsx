@@ -33,7 +33,7 @@ const RightSide = ({
         them === ChatThemEntity.Telegram
           ? " bg-green-200"
           : ChatThemEntity.Simple
-            ? " bg-[#4F46E5] text-white"
+            ? " bg-[#b3baff] text-black"
             : ""
       }`}
     >
@@ -53,7 +53,7 @@ const RightSide = ({
               them === ChatThemEntity.Telegram
                 ? " "
                 : ChatThemEntity.Simple
-                  ? " [&>path]:fill-white"
+                  ? " [&>path]:fill-black"
                   : ""
             }
           />
@@ -79,7 +79,7 @@ const RightSide = ({
           them === ChatThemEntity.Telegram
             ? "[&>g>path]:fill-green-200"
             : ChatThemEntity.Simple
-              ? "[&>g>path]:fill-[#4F46E5]"
+              ? "[&>g>path]:fill-[#b3baff]"
               : ""
         } `}
       />
