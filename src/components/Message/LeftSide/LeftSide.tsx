@@ -3,6 +3,7 @@ import React from "react";
 import { MessageEntity } from "../../../domain/MessageEntity";
 import { ChatThemEntity } from "../../../ts/enum";
 import SpeechBubbleCornerIcon from "../../Icons/SpeechBubbleCornerIcon";
+import { renderTextWithHighlights } from "../../../helper/renderTextWithHighlights";
 
 const LeftSide = ({
   message,
@@ -11,6 +12,7 @@ const LeftSide = ({
   media,
   them,
   maxWidth,
+  dynamicSymbols,
 }: {
   media: JSX.Element | null;
   message: MessageEntity;
@@ -18,6 +20,7 @@ const LeftSide = ({
   maxWidth?: boolean;
   them?: ChatThemEntity;
   handleContextMenu: (event: React.MouseEvent, message: MessageEntity) => void;
+  dynamicSymbols?: string[];
 }) => {
   return (
     <>
@@ -60,7 +63,7 @@ const LeftSide = ({
             : message.user?.fullName}
         </span>
         {media ? media : null}
-        <span dangerouslySetInnerHTML={{ __html: message.text }} />
+        <span>{renderTextWithHighlights(message.text, dynamicSymbols)}</span>
         <div className="w-full flex gap-1 items-center justify-end">
           <span className="text-[10px]">
             {new Date(message.createdDate).toLocaleTimeString().split(":")[0] +

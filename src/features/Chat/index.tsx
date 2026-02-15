@@ -144,6 +144,9 @@ const Chat = ({
                         handleContextMenu={handleContextMenu}
                         message={message}
                         them={them}
+                        dynamicSymbols={dynamicSymbolAssignments?.map(
+                          (item) => item.symbol,
+                        )}
                       />
                     );
 
@@ -159,6 +162,9 @@ const Chat = ({
                       handleContextMenu={handleContextMenu}
                       message={message}
                       them={them}
+                      dynamicSymbols={dynamicSymbolAssignments?.map(
+                        (item) => item.symbol,
+                      )}
                     />
                   );
                 })

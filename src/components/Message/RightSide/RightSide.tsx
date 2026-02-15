@@ -5,6 +5,7 @@ import { ChatThemEntity } from "../../../ts/enum";
 import DoubleCheckIcon from "../../Icons/DoubleCheckIcon";
 import SpeechBubbleCornerIcon from "../../Icons/SpeechBubbleCornerIcon";
 import Spinner from "../../Spinner/Spinner";
+import { renderTextWithHighlights } from "../../../helper/renderTextWithHighlights";
 
 const RightSide = ({
   handleContextMenu,
@@ -12,12 +13,14 @@ const RightSide = ({
   message,
   them,
   maxWidth,
+  dynamicSymbols,
 }: {
   media: JSX.Element | null;
   message: MessageEntity;
   them?: ChatThemEntity;
   maxWidth?: boolean;
   handleContextMenu: (event: React.MouseEvent, message: MessageEntity) => void;
+  dynamicSymbols?: string[];
 }) => {
   return (
     <motion.div
@@ -38,7 +41,7 @@ const RightSide = ({
       }`}
     >
       {media ? media : null}
-      <span className="">{message.text}</span>
+      <span>{renderTextWithHighlights(message.text, dynamicSymbols)}</span>
       <div className="w-full flex gap-1 items-center justify-end">
         <span className="text-[10px]">
           {new Date(message.createdDate).toLocaleTimeString().split(":")[0] +
